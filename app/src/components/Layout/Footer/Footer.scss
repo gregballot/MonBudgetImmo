@@ -1,0 +1,35 @@
+@use '@styles/index.scss' as *;
+
+.footer {
+  width: 100%;
+  background: $color-footer-bg;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: center;
+  padding: $padding-footer 0 $padding-footer 0;
+  color: $color-footer-text;
+  font-size: $font-size-footer;
+}
+
+.footer-inner {
+  width: $max-width;
+  max-width: $max-width-full;
+  margin: 0 auto;
+}
+
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.app-content {
+  flex: 1 0 auto;
+}

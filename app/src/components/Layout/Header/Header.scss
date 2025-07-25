@@ -1,0 +1,60 @@
+@use '@styles/index.scss' as *;
+
+.header {
+  width: 100%;
+  height: $header-height;
+  background: $color-header-bg;
+  box-shadow: 0 2px 8px rgba(44, 62, 80, 0.04);
+  border-bottom: 1px solid $color-border;
+  margin: 0;
+  padding: 0;
+  left: 0;
+  position: fixed;
+}
+
+.header-inner {
+  width: $max-width;
+  max-width: $max-width-full;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: $padding-header $padding-main;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+}
+
+.header-logo {
+  width: 48px;
+  height: 48px;
+  margin-right: 1.2rem;
+}
+
+.header-title {
+  font-size: $font-size-header;
+  font-weight: $font-weight-bold;
+  color: $color-header-text;
+  letter-spacing: 1px;
+  font-family: $font-family-main;
+}
+
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: $padding-main;
+}
+
+.header-nav a {
+  color: $color-header-link;
+  text-decoration: none;
+  font-size: $font-size-link;
+  font-weight: $font-weight-normal;
+  transition: color 0.2s;
+
+  &:hover {
+    color: $color-header-link-hover;
+  }
+} 

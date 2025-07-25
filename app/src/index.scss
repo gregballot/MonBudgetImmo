@@ -1,0 +1,43 @@
+// Variables
+$color-primary: #1a2341;
+$color-header-bg: $color-primary;
+$color-header-text: #fff;
+$color-header-link: #e5e7ef;
+$color-header-link-hover: #3b82f6;
+$color-footer-bg: #f6f7fa;
+$color-footer-text: #6b7280;
+$color-border: #ececec;
+$color-body-bg: #fff;
+$font-family-main: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+
+$max-width: 70vw;
+$max-width-full: 100vw;
+
+$padding-main: 2rem;
+$padding-header: 1rem;
+$padding-footer: 2rem;
+
+$font-size-header: 1.5rem;
+$font-size-footer: 1.2rem;
+$font-size-link: 1.1rem;
+$font-weight-bold: 700;
+$font-weight-normal: 500;
+
+$header-height: 80px;
+
+body, html {
+  background: $color-body-bg;
+  margin: 0;
+  padding: 0 2vw;
+  min-height: 100vh;
+}
+
+.main-inner {
+  width: $max-width;
+  max-width: $max-width-full;
+  margin: 0 auto;
+  padding: 0 $padding-main;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}

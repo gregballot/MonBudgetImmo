@@ -1,0 +1,6 @@
+@use '../../index.scss' as *;
+
+.app-content {
+  margin-top: $header-height;
+  flex: 1 0 auto;
+} 
