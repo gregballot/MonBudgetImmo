@@ -10,4 +10,26 @@ export default defineConfig({
       '@styles': path.resolve(__dirname, 'src/styles'),
     },
   },
+  build: {
+    // Generate source maps for better debugging
+    sourcemap: true,
+    // Optimize chunk size
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom'],
+          router: ['react-router-dom'],
+        },
+      },
+    },
+    // Minify CSS
+    cssMinify: true,
+    // Optimize assets
+    assetsInlineLimit: 4096,
+  },
+  // Optimize for SEO
+  server: {
+    port: 3000,
+    host: true,
+  },
 });
