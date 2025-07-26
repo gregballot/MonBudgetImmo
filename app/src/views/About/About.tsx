@@ -4,7 +4,7 @@ import "./About.scss";
 const APropos: React.FC = () => (
   <div className="about-container">
     <div className="about-header">
-              <h1 className="about-title">MonSimulateurImmo : Votre projet immobilier, simplifié.</h1>
+              <h1 className="about-title">Votre projet immobilier, simplifié.</h1>
     </div>
     
     <div className="about-content">
@@ -15,7 +15,7 @@ const APropos: React.FC = () => (
           "Puis-je vraiment me permettre ce bien qui me fait rêver ?".
         </p>
         <p className="about-text">
-          Frustré par les simulateurs existants, souvent complexes ou incomplets, j'ai eu l'idée de créer MonSimulateurImmo.
+          Frustré par les simulateurs existants, souvent complexes ou incomplets, j'ai eu l'idée de créer <em>Mon Simulateur Immo</em>.
         </p>
       </section>
 
@@ -39,7 +39,7 @@ const APropos: React.FC = () => (
       <section className="about-project">
         <h2 className="section-title">Un projet personnel et transparent</h2>
         <p className="about-text">
-          MonSimulateurImmo n'est pas une grande entreprise. C'est un projet personnel que j'ai développé sur mon temps libre, 
+          <em>Mon Simulateur Immo</em> n'est pas une grande entreprise. C'est un projet personnel que j'ai développé sur mon temps libre, 
           avec l'envie de créer l'outil que j'aurais moi-même aimé utiliser.
         </p>
         <p className="about-text">
