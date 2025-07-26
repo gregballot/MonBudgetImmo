@@ -24,7 +24,8 @@ const APropos: React.FC = () => (
             "Puis-je vraiment me permettre ce bien qui me fait rêver ?".
           </p>
           <p className="about-text">
-            Frustré par les simulateurs existants, souvent complexes ou incomplets, j'ai eu l'idée de créer <em>Mon Simulateur Immo</em>.
+            Frustré par les simulateurs existants (souvent complètement dépassés, incomplets, peu flexibles et
+            qui cachent souvent un formulaire de contact), j'ai eu l'idée de créer <em>Mon Simulateur Immo</em>.
           </p>
         </section>
 
@@ -40,8 +41,8 @@ const APropos: React.FC = () => (
                 votre capacité d'emprunt et le prix du bien que vous pouvez commencer à chercher.</li>
           </ul>
           <p className="about-text">
-            L'objectif est de vous donner une vision claire et instantanée de votre pouvoir d'achat immobilier, 
-            sans jargon ni superflu.
+            L'objectif est de vous donner une vision claire et instantanée de votre pouvoir d'achat immobilier
+            selon l'angle qui vous convient le mieux.
           </p>
         </section>
 
