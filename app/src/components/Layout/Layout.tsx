@@ -5,15 +5,15 @@ import Footer from "./Footer/Footer";
 import "./Layout.scss";
 
 const Layout: React.FC = () => (
-  <>
+  <div className="layout-container">
     <Header />
-    <div className="main-inner">
-      <div className="app-content">
+    <main className="main-content">
+      <div className="content-wrapper">
         <Outlet />
       </div>
-    </div>
+    </main>
     <Footer />
-  </>
+  </div>
 );
 
 export default Layout; 

@@ -1,6 +1,21 @@
-@use '../../index.scss' as *;
+@use '@styles/index' as *;
 
-.app-content {
+.layout-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.main-content {
+  flex: 1;
   margin-top: $header-height;
-  flex: 1 0 auto;
+  overflow-y: auto;
+  background: $color-body-bg;
+}
+
+.content-wrapper {
+  width: 100%;
+  max-width: $container-max-width;
+  margin: 0 auto;
+  padding: 0;
 } 

@@ -1,35 +1,62 @@
-@use '@styles/index.scss' as *;
+@use '@styles/index' as *;
+
+// Footer-specific color variables
+$color-footer-bg: #f6f7fa;
+$color-footer-text: #6b7280;
 
 .footer {
   width: 100%;
   background: $color-footer-bg;
-  position: absolute;
-  bottom: 0;
-  left: 0;
   text-align: center;
-  padding: $padding-footer 0 $padding-footer 0;
+  padding: $padding-footer 0;
   color: $color-footer-text;
   font-size: $font-size-footer;
+  border-top: 1px solid $color-border;
 }
 
 .footer-inner {
-  width: $max-width;
-  max-width: $max-width-full;
+  width: 100%;
+  max-width: $container-max-width;
   margin: 0 auto;
-}
-
-html, body, #root {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-#root {
+  padding: 0 $spacing-xl;
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  align-items: center;
+  gap: 0.75rem;
 }
 
-.app-content {
-  flex: 1 0 auto;
+.footer-motto {
+  font-size: $font-size-footer;
+  color: $color-footer-text;
+}
+
+.footer-author {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  font-size: 0.9rem;
+  color: $color-footer-text;
+  
+  .footer-social {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    
+    .social-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $color-footer-text;
+      transition: color 0.2s ease;
+      
+      &:hover {
+        color: $color-primary;
+      }
+      
+      svg {
+        width: 20px;
+        height: 20px;
+      }
+    }
+  }
 }

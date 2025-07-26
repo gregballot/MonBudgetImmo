@@ -1,4 +1,10 @@
-@use '@styles/index.scss' as *;
+@use '@styles/index' as *;
+
+// Header-specific color variables
+$color-header-bg: $color-primary;
+$color-header-text: #fff;
+$color-header-link: #e5e7ef;
+$color-header-link-hover: $color-secondary;
 
 .header {
   width: 100%;
@@ -13,13 +19,15 @@
 }
 
 .header-inner {
-  width: $max-width;
-  max-width: $max-width-full;
+  width: 100%;
+  max-width: $container-max-width;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: $padding-header $padding-main;
+  padding: 0 $spacing-xl;
+  height: 100%;
+  box-sizing: border-box;
 }
 
 .header-left {

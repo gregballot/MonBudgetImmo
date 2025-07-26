@@ -1,0 +1,155 @@
+@use '@styles/index' as *;
+
+.about-container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: $spacing-2xl $spacing-xl;
+  min-height: calc(100vh - #{$header-height} - 200px);
+}
+
+.about-header {
+  text-align: center;
+  margin-bottom: $spacing-2xl;
+  padding-bottom: $spacing-xl;
+  border-bottom: 2px solid $color-border-light;
+  
+  .about-title {
+    font-size: 2.5rem;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
+    line-height: 1.2;
+    margin: 0;
+    font-family: $font-family-main;
+    
+    @media (max-width: 768px) {
+      font-size: 2rem;
+    }
+  }
+}
+
+.about-content {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2xl;
+}
+
+.about-intro,
+.about-approach,
+.about-project {
+  .about-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: $color-text-primary;
+    margin-bottom: $spacing-lg;
+    font-family: $font-family-main;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.section-title {
+  font-size: 1.5rem;
+  font-weight: $font-weight-bold;
+  color: $color-secondary;
+  margin-bottom: $spacing-lg;
+  font-family: $font-family-main;
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 0;
+    width: 60px;
+    height: 3px;
+    background: $color-secondary;
+    border-radius: 2px;
+  }
+}
+
+.feature-list {
+  margin: $spacing-lg 0;
+  padding-left: $spacing-xl;
+  
+  li {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: $color-text-primary;
+    margin-bottom: $spacing-md;
+    font-family: $font-family-main;
+    position: relative;
+    
+    &::before {
+      content: '•';
+      color: $color-secondary;
+      font-weight: bold;
+      position: absolute;
+      left: -20px;
+    }
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+.about-signature {
+  text-align: center;
+  margin-top: $spacing-2xl;
+  padding-top: $spacing-xl;
+  border-top: 2px solid $color-border-light;
+  
+  .signature-text {
+    font-size: 1.2rem;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-md;
+    font-style: italic;
+    font-family: $font-family-main;
+  }
+  
+  .author-name {
+    font-size: 1.3rem;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
+    margin: 0;
+    font-family: $font-family-main;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .about-container {
+    padding: $spacing-xl $spacing-lg;
+  }
+  
+  .about-header {
+    margin-bottom: $spacing-xl;
+    padding-bottom: $spacing-lg;
+  }
+  
+  .about-content {
+    gap: $spacing-xl;
+  }
+  
+  .about-intro,
+  .about-approach,
+  .about-project {
+    .about-text {
+      font-size: 1rem;
+    }
+  }
+  
+  .section-title {
+    font-size: 1.3rem;
+  }
+  
+  .feature-list {
+    padding-left: $spacing-lg;
+    
+    li {
+      font-size: 1rem;
+    }
+  }
+} 

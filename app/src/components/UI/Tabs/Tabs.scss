@@ -1,0 +1,33 @@
+@use '@styles/index' as *;
+
+.tabs-container {
+  display: flex;
+  border-bottom: 1px solid $color-border;
+  margin-bottom: 2rem;
+  
+  .tab-button {
+    flex: 1;
+    padding: 1rem 1.5rem;
+    background: none;
+    border: none;
+    font-size: 1rem;
+    font-weight: $font-weight-normal;
+    color: $color-text-secondary;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-family: $font-family-main;
+    border-bottom: 3px solid transparent;
+    
+    &:hover {
+      color: $color-text-primary;
+      background: rgba(59, 130, 246, 0.05);
+    }
+    
+    &.tab-active {
+      color: $color-secondary;
+      font-weight: $font-weight-bold;
+      border-bottom-color: $color-secondary;
+      background: rgba(59, 130, 246, 0.1);
+    }
+  }
+} 

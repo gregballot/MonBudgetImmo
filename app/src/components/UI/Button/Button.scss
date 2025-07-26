@@ -1,0 +1,81 @@
+@use '@styles/index' as *;
+
+.btn {
+  border: none;
+  border-radius: $border-radius-md;
+  font-family: $font-family-main;
+  font-weight: $font-weight-normal;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+  }
+  
+  // Size variants
+  &.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+  }
+  
+  &.btn-md {
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+  }
+  
+  &.btn-lg {
+    padding: 1rem 2rem;
+    font-size: 1.125rem;
+  }
+  
+  // Color variants
+  &.btn-primary {
+    background: $color-primary;
+    color: white;
+    
+    &:hover:not(:disabled) {
+      background: #151a2f;
+    }
+    
+    &.btn-active {
+      background: $color-secondary;
+    }
+  }
+  
+  &.btn-secondary {
+    background: #f3f4f6;
+    color: $color-text-primary;
+    border: 1px solid #d1d5db;
+    
+    &:hover:not(:disabled) {
+      background: #e5e7eb;
+    }
+    
+    &.btn-active {
+      background: $color-secondary;
+      color: white;
+      border-color: $color-secondary;
+    }
+  }
+  
+  &.btn-outline {
+    background: transparent;
+    color: $color-primary;
+    border: 2px solid $color-primary;
+    
+    &:hover:not(:disabled) {
+      background: $color-primary;
+      color: white;
+    }
+    
+    &.btn-active {
+      background: $color-primary;
+      color: white;
+    }
+  }
+} 
