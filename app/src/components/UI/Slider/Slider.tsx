@@ -11,7 +11,6 @@ interface SliderProps {
   showValue?: boolean;
   formatValue?: (value: number) => string;
   className?: string;
-  id?: string;
 }
 
 const Slider: React.FC<SliderProps> = ({
@@ -24,7 +23,6 @@ const Slider: React.FC<SliderProps> = ({
   showValue = true,
   formatValue = (val) => `${val.toFixed(2)} %`,
   className = '',
-  id,
 }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [isEditing, setIsEditing] = useState(false);

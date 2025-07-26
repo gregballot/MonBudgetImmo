@@ -60,6 +60,13 @@
       background: $color-secondary;
       color: white;
       border-color: $color-secondary;
+      
+      &:active,
+      &:focus {
+        background: $color-secondary;
+        color: white;
+        border-color: $color-secondary;
+      }
     }
   }
   
