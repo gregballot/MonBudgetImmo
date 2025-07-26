@@ -13,7 +13,7 @@ const Footer: React.FC = () => (
         <span>Réalisé par Grégoire Ballot</span>
         <div className="footer-social">
           <a 
-            href="https://github.com/gregballot/MonBudgetImmo" 
+            href="https://github.com/gregballot/MonSimulateurImmo" 
             target="_blank" 
             rel="noopener noreferrer"
             className="social-link github-link"
