@@ -328,7 +328,7 @@ const Calculator: React.FC = () => {
             step={0.1}
             value={interestRate}
             onChange={setInterestRate}
-            formatValue={(value) => `${value.toFixed(1)} %`}
+            formatValue={(value) => `${value.toFixed(2)} %`}
           />
         </div>
       </div>

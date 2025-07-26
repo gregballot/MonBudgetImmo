@@ -1,14 +1,19 @@
 @use '@styles/index' as *;
 
 .page-container {
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
   
   h2 {
     font-size: 2rem;
     font-weight: $font-weight-bold;
     color: $color-primary;
-    margin-left: 2rem;
+    margin-left: 1rem;
+    margin-bottom: 1rem;
     font-family: $font-family-main;
   }
   
@@ -18,5 +23,40 @@
     color: $color-text-primary;
     margin-bottom: 1rem;
     font-family: $font-family-main;
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .page-container {
+    h2 {
+      font-size: 1.5rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    
+    p {
+      font-size: 1rem;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .page-container {
+    h2 {
+      font-size: 1.25rem;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+    }
+    
+    p {
+      font-size: 0.9rem;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
   }
 } 

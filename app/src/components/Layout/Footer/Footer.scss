@@ -12,6 +12,7 @@ $color-footer-text: #6b7280;
   color: $color-footer-text;
   font-size: $font-size-footer;
   border-top: 1px solid $color-border;
+  flex-shrink: 0; // Prevent footer from shrinking
 }
 
 .footer-inner {
@@ -57,6 +58,60 @@ $color-footer-text: #6b7280;
         width: 20px;
         height: 20px;
       }
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .footer {
+    padding: $spacing-lg 0;
+  }
+  
+  .footer-inner {
+    padding: 0 $spacing-md;
+    gap: 0.5rem;
+  }
+  
+  .footer-motto {
+    font-size: 1rem;
+  }
+  
+  .footer-author {
+    flex-direction: column;
+    gap: 0.5rem;
+    font-size: 0.85rem;
+    
+    .footer-social {
+      gap: 0.5rem;
+      
+      .social-link svg {
+        width: 18px;
+        height: 18px;
+      }
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .footer {
+    padding: $spacing-md 0;
+  }
+  
+  .footer-inner {
+    padding: 0 $spacing-sm;
+  }
+  
+  .footer-motto {
+    font-size: 0.9rem;
+  }
+  
+  .footer-author {
+    font-size: 0.8rem;
+    
+    .footer-social .social-link svg {
+      width: 16px;
+      height: 16px;
     }
   }
 }

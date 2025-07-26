@@ -1,7 +1,6 @@
 @use '@styles/index' as *;
 
 .about-container {
-  max-width: 800px;
   margin: 0 auto;
   padding: $spacing-2xl $spacing-xl;
   min-height: calc(100vh - #{$header-height} - 200px);
@@ -97,7 +96,7 @@
 
 .about-signature {
   text-align: center;
-  margin-top: $spacing-2xl;
+  margin-top: $spacing-sm;
   padding-top: $spacing-xl;
   border-top: 2px solid $color-border-light;
   

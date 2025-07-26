@@ -4,18 +4,47 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  overflow-x: hidden; // Prevent horizontal scrolling
+  width: 100%;
 }
 
 .main-content {
   flex: 1;
   margin-top: $header-height;
-  overflow-y: auto;
   background: $color-body-bg;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .content-wrapper {
   width: 100%;
   max-width: $container-max-width;
   margin: 0 auto;
-  padding: 0;
+  padding: 0 $spacing-lg;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .main-content {
+    margin-top: 60px; // Match mobile header height
+  }
+  
+  .content-wrapper {
+    padding: 0 $spacing-md;
+  }
+}
+
+@media (max-width: 480px) {
+  .main-content {
+    margin-top: 60px; // Keep consistent for very small screens
+  }
+  
+  .content-wrapper {
+    padding: 0 $spacing-sm;
+  }
 } 
