@@ -1,6 +1,6 @@
-# MonSimulateurImmo
+# Mon Simulateur Immo
 
-MonSimulateurImmo is a project aiming to help anyone with a real estate project have a clear view of its financial aspect.
+Mon Simulateur Immo is a project aiming to help anyone with a real estate project have a clear view of its financial aspect.
 This application provides tools and simulations to make property budgeting simple, transparent, and accessible for all.
 
 ## Setup & Run

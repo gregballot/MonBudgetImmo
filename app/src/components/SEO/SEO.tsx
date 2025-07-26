@@ -12,20 +12,20 @@ interface SEOProps {
 }
 
 const SEO: React.FC<SEOProps> = ({
-  title = "MonSimulateurImmo - Calculez votre budget immobilier gratuitement",
+  title = "Mon Simulateur Immo - Calculez votre budget immobilier gratuitement",
   description = "Simulateur immobilier gratuit pour calculer votre budget d'achat. Estimez votre capacité d'emprunt, mensualités et prix maximum selon votre salaire. Outil simple et fiable basé sur les recommandations HCSF.",
   keywords = "simulateur immobilier, budget immobilier, calcul emprunt, capacité d'emprunt, mensualité crédit, achat immobilier, taux d'endettement, HCSF, crédit immobilier",
-  canonical = "https://monsimulateurimmo.fr/",
-  ogImage = "https://monsimulateurimmo.fr/og-image.png",
+  canonical = "https://mon-simulateur-immo.fr/",
+  ogImage = "https://mon-simulateur-immo.fr/og-image.png",
   ogType = "website",
   structuredData
 }) => {
   const defaultStructuredData = {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "MonSimulateurImmo",
+    "name": "Mon Simulateur Immo",
     "description": "Simulateur immobilier gratuit pour calculer votre budget d'achat immobilier",
-    "url": "https://monsimulateurimmo.fr/",
+    "url": "https://mon-simulateur-immo.fr/",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Web Browser",
     "offers": {
@@ -62,7 +62,7 @@ const SEO: React.FC<SEOProps> = ({
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:site_name" content="MonSimulateurImmo" />
+      <meta property="og:site_name" content="Mon Simulateur Immo" />
       <meta property="og:locale" content="fr_FR" />
       
       {/* Twitter */}

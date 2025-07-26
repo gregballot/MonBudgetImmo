@@ -7,7 +7,7 @@ const Header: React.FC = () => (
   <header className="header">
     <div className="header-inner">
       <div className="header-left">
-        <img src={logo} alt="Logo MonSimulateurImmo" className="header-logo" />
+        <img src={logo} alt="Logo Mon Simulateur Immo" className="header-logo" />
         <span className="header-title">Mon Simulateur Immo</span>
       </div>
       <nav className="header-nav">

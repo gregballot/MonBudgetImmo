@@ -5,10 +5,10 @@ import "./About.scss";
 const APropos: React.FC = () => (
   <>
     <SEO 
-      title="À propos - MonSimulateurImmo | Votre projet immobilier simplifié"
-      description="Découvrez l'histoire derrière MonSimulateurImmo. Un simulateur immobilier gratuit créé pour simplifier le calcul de votre budget d'achat immobilier. Approche innovante basée sur vos revenus."
-      keywords="à propos simulateur immobilier, histoire MonSimulateurImmo, projet immobilier, calcul budget, Grégoire simulateur"
-      canonical="https://monsimulateurimmo.fr/a-propos"
+      title="À propos - Mon Simulateur Immo | Votre projet immobilier simplifié"
+      description="Découvrez l'histoire derrière Mon Simulateur Immo. Un simulateur immobilier gratuit créé pour simplifier le calcul de votre budget d'achat immobilier. Approche innovante basée sur vos revenus."
+      keywords="à propos simulateur immobilier, histoire Mon Simulateur Immo, projet immobilier, calcul budget, Grégoire simulateur"
+      canonical="https://mon-simulateur-immo.fr/a-propos"
       ogType="article"
     />
     <div className="about-container">

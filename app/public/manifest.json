@@ -1,6 +1,6 @@
 {
-  "name": "MonSimulateurImmo - Calculez votre budget immobilier",
-  "short_name": "MonSimulateurImmo",
+  "name": "Mon Simulateur Immo - Calculez votre budget immobilier",
+  "short_name": "Mon Simulateur Immo",
   "description": "Simulateur immobilier gratuit pour calculer votre budget d'achat",
   "start_url": "/",
   "display": "standalone",
