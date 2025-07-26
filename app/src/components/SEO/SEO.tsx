@@ -16,7 +16,7 @@ const SEO: React.FC<SEOProps> = ({
   description = "Simulateur immobilier gratuit pour calculer votre budget d'achat. Estimez votre capacité d'emprunt, mensualités et prix maximum selon votre salaire. Outil simple et fiable basé sur les recommandations HCSF.",
   keywords = "simulateur immobilier, budget immobilier, calcul emprunt, capacité d'emprunt, mensualité crédit, achat immobilier, taux d'endettement, HCSF, crédit immobilier",
   canonical = "https://monsimulateurimmo.fr/",
-  ogImage = "https://monsimulateurimmo.fr/og-image.jpg",
+  ogImage = "https://monsimulateurimmo.fr/og-image.png",
   ogType = "website",
   structuredData
 }) => {
