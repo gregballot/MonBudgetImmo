@@ -6,7 +6,7 @@ import Slider from '../UI/Slider/Slider';
 import { useCalculator } from '../../helpers/useCalculator';
 import { formatCurrency, formatCurrencyPerMonth } from '../../helpers/formatters';
 import { LOAN_DURATION_OPTIONS, CALCULATOR_TABS, CALCULATOR_DEFAULTS } from '../../helpers/constants';
-import { validateCalculatorInputs } from '../../utils/validation';
+import { validateCalculatorInputs, calculateMaxDownPayment } from '../../utils/validation';
 import type { CalculationMode, CalculationResult } from '../../helpers/Calculator';
 import type { ValidationError } from '../../types';
 import './Calculator.scss';
@@ -107,7 +107,7 @@ const Calculator: React.FC = () => {
     };
 
     // Validate inputs
-    const errors = validateCalculatorInputs(inputs);
+    const errors = validateCalculatorInputs(inputs, activeTab);
     setValidationErrors(errors);
 
     // Only update calculation if there are no validation errors
@@ -156,6 +156,17 @@ const Calculator: React.FC = () => {
       return validationErrors.find(error => error.field === fieldName)?.message;
     };
 
+    // Calculate max down payment based on current mode and inputs
+    const inputs = {
+      propertyPrice,
+      monthlyPayment,
+      requiredSalary,
+      downPayment,
+      loanDuration,
+      interestRate,
+    };
+    const maxDownPayment = calculateMaxDownPayment(inputs, activeTab);
+
     switch (activeTab) {
       case 'property':
         return (
@@ -175,6 +186,7 @@ const Calculator: React.FC = () => {
               type="currency"
               currency="€"
               error={getFieldError('downPayment')}
+              max={maxDownPayment}
             />
           </>
         );
@@ -197,6 +209,7 @@ const Calculator: React.FC = () => {
               type="currency"
               currency="€"
               error={getFieldError('downPayment')}
+              max={maxDownPayment}
             />
           </>
         );
@@ -219,6 +232,7 @@ const Calculator: React.FC = () => {
               type="currency"
               currency="€"
               error={getFieldError('downPayment')}
+              max={maxDownPayment}
             />
           </>
         );

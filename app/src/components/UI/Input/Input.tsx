@@ -11,6 +11,7 @@ interface InputProps {
   disabled?: boolean;
   error?: string;
   className?: string;
+  max?: number;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -23,6 +24,7 @@ const Input: React.FC<InputProps> = ({
   disabled = false,
   error,
   className = '',
+  max,
 }) => {
   const formatCurrency = (value: string): string => {
     const numericValue = value.replace(/[^\d]/g, '');
@@ -37,6 +39,14 @@ const Input: React.FC<InputProps> = ({
     
     if (type === 'currency') {
       newValue = formatCurrency(newValue);
+    }
+    
+    // Apply max constraint if specified
+    if (max !== undefined && type === 'currency') {
+      const numericValue = parseInt(newValue.replace(/[^\d]/g, ''), 10);
+      if (!isNaN(numericValue) && numericValue > max) {
+        newValue = max.toLocaleString('fr-FR');
+      }
     }
     
     onChange(newValue);

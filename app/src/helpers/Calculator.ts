@@ -145,10 +145,13 @@ export class MortgageCalculator {
     const totalPurchaseCost = property + notaryFees;
     const loanAmount = totalPurchaseCost - this.downPayment;
     
+    // Recalculate monthly payment based on actual loan amount
+    const actualMonthlyPayment = this.calculateMonthlyPayment(loanAmount, this.interestRate, this.loanDuration);
+    
     return {
-      monthlyPayment: this.monthlyPayment,
-      requiredSalary: this.calculateRequiredSalary(this.monthlyPayment),
-      totalCost: this.calculateTotalCost(this.monthlyPayment, this.loanDuration),
+      monthlyPayment: actualMonthlyPayment,
+      requiredSalary: this.calculateRequiredSalary(actualMonthlyPayment),
+      totalCost: this.calculateTotalCost(actualMonthlyPayment, this.loanDuration),
       propertyPrice: property,
       loanAmount: loanAmount,
       notaryFees: notaryFees,
@@ -163,10 +166,13 @@ export class MortgageCalculator {
     const totalPurchaseCost = price + notaryFees;
     const loanAmount = totalPurchaseCost - this.downPayment;
     
+    // Recalculate monthly payment based on actual loan amount
+    const actualMonthlyPayment = this.calculateMonthlyPayment(loanAmount, this.interestRate, this.loanDuration);
+    
     return {
-      monthlyPayment: payment,
+      monthlyPayment: actualMonthlyPayment,
       requiredSalary: this.requiredSalary,
-      totalCost: this.calculateTotalCost(payment, this.loanDuration),
+      totalCost: this.calculateTotalCost(actualMonthlyPayment, this.loanDuration),
       propertyPrice: price,
       loanAmount: loanAmount,
       notaryFees: notaryFees,

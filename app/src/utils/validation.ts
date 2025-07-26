@@ -97,7 +97,7 @@ export const validateCalculatorInputs = (inputs: {
   downPayment: number;
   loanDuration: number;
   interestRate: number;
-}): ValidationError[] => {
+}, calculationMode?: 'property' | 'monthly' | 'salary'): ValidationError[] => {
   const errors: ValidationError[] = [];
   
   // Property price validation
@@ -158,15 +158,55 @@ export const validateCalculatorInputs = (inputs: {
     errors.push({ field: 'interestRate', message: 'Le taux d\'intérêt doit être entre 0% et 100%' });
   }
   
-  // Custom validation: down payment cannot exceed property price
-  if (inputs.downPayment >= inputs.propertyPrice) {
-    errors.push({
-      field: 'downPayment',
-      message: "L'apport ne peut pas dépasser le prix du bien",
-    });
-  }
+  // Note: Down payment validation is now handled by max constraint in the Input component
+  // No validation errors for down payment - the input field will enforce the maximum value
   
   return errors;
+};
+
+// Helper function to calculate maximum allowed down payment based on calculation mode
+export const calculateMaxDownPayment = (inputs: {
+  propertyPrice: number;
+  monthlyPayment: number;
+  requiredSalary: number;
+  downPayment: number;
+  loanDuration: number;
+  interestRate: number;
+}, calculationMode?: 'property' | 'monthly' | 'salary'): number => {
+  const calculateNotaryFees = (propertyPrice: number): number => {
+    return propertyPrice * 0.0793; // 7.93% - typical rate for existing properties
+  };
+
+  if (calculationMode === 'property') {
+    // In property mode, down payment cannot exceed property price + notary fees
+    const notaryFees = calculateNotaryFees(inputs.propertyPrice);
+    return inputs.propertyPrice + notaryFees;
+  } else if (calculationMode === 'monthly' || calculationMode === 'salary') {
+    // In monthly/salary mode, calculate the maximum based on the calculated property price
+    const calculatePropertyPrice = (monthlyPayment: number, rate: number, years: number): number => {
+      const monthlyRate = rate / 100 / 12;
+      const numberOfPayments = years * 12;
+      
+      if (monthlyRate === 0) return monthlyPayment * numberOfPayments;
+      
+      return monthlyPayment * (Math.pow(1 + monthlyRate, numberOfPayments) - 1) / 
+             (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments));
+    };
+    
+    const calculateNotaryFees = (propertyPrice: number): number => {
+      return propertyPrice * 0.0793; // 7.93% - typical rate for existing properties
+    };
+    
+    const monthlyPayment = calculationMode === 'monthly' ? inputs.monthlyPayment : (inputs.requiredSalary * 0.33);
+    const calculatedPropertyPrice = calculatePropertyPrice(monthlyPayment, inputs.interestRate, inputs.loanDuration);
+    const notaryFees = calculateNotaryFees(calculatedPropertyPrice);
+    const totalPurchaseCost = calculatedPropertyPrice + notaryFees;
+    
+    return totalPurchaseCost;
+  }
+  
+  // Default fallback
+  return 999999999;
 };
 
  
