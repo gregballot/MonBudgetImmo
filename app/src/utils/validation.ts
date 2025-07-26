@@ -97,7 +97,7 @@ export const validateCalculatorInputs = (inputs: {
   downPayment: number;
   loanDuration: number;
   interestRate: number;
-}, calculationMode?: 'property' | 'monthly' | 'salary'): ValidationError[] => {
+}): ValidationError[] => {
   const errors: ValidationError[] = [];
   
   // Property price validation
@@ -172,16 +172,16 @@ export const calculateMaxDownPayment = (inputs: {
   downPayment: number;
   loanDuration: number;
   interestRate: number;
-}, calculationMode?: 'property' | 'monthly' | 'salary'): number => {
+}, _calculationMode?: 'property' | 'monthly' | 'salary'): number => {
   const calculateNotaryFees = (propertyPrice: number): number => {
     return propertyPrice * 0.0793; // 7.93% - typical rate for existing properties
   };
 
-  if (calculationMode === 'property') {
+  if (_calculationMode === 'property') {
     // In property mode, down payment cannot exceed property price + notary fees
     const notaryFees = calculateNotaryFees(inputs.propertyPrice);
     return inputs.propertyPrice + notaryFees;
-  } else if (calculationMode === 'monthly' || calculationMode === 'salary') {
+  } else if (_calculationMode === 'monthly' || _calculationMode === 'salary') {
     // In monthly/salary mode, calculate the maximum based on the calculated property price
     const calculatePropertyPrice = (monthlyPayment: number, rate: number, years: number): number => {
       const monthlyRate = rate / 100 / 12;
@@ -197,7 +197,7 @@ export const calculateMaxDownPayment = (inputs: {
       return propertyPrice * 0.0793; // 7.93% - typical rate for existing properties
     };
     
-    const monthlyPayment = calculationMode === 'monthly' ? inputs.monthlyPayment : (inputs.requiredSalary * 0.33);
+    const monthlyPayment = _calculationMode === 'monthly' ? inputs.monthlyPayment : (inputs.requiredSalary * 0.33);
     const calculatedPropertyPrice = calculatePropertyPrice(monthlyPayment, inputs.interestRate, inputs.loanDuration);
     const notaryFees = calculateNotaryFees(calculatedPropertyPrice);
     const totalPurchaseCost = calculatedPropertyPrice + notaryFees;

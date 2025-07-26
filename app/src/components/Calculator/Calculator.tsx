@@ -107,7 +107,7 @@ const Calculator: React.FC = () => {
     };
 
     // Validate inputs
-    const errors = validateCalculatorInputs(inputs, activeTab);
+    const errors = validateCalculatorInputs(inputs);
     setValidationErrors(errors);
 
     // Only update calculation if there are no validation errors

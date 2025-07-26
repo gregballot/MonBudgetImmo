@@ -74,18 +74,7 @@ const Slider: React.FC<SliderProps> = ({
     }, 2000);
   }, []);
 
-  // Legacy mouse event handlers for backward compatibility
-  const handleMouseDown = (e: React.MouseEvent) => {
-    handlePointerDown(e as React.PointerEvent);
-  };
-
-  const handleMouseMove = useCallback((e: MouseEvent | React.MouseEvent) => {
-    handlePointerMove(e as PointerEvent | React.PointerEvent);
-  }, [handlePointerMove]);
-
-  const handleMouseUp = useCallback(() => {
-    handlePointerUp();
-  }, [handlePointerUp]);
+  // Legacy mouse event handlers for backward compatibility - removed unused handlers
 
   useEffect(() => {
     if (isDragging) {
