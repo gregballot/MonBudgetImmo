@@ -12,6 +12,7 @@ interface InputProps {
   error?: string;
   className?: string;
   max?: number;
+  id?: string;
 }
 
 const Input: React.FC<InputProps> = ({
@@ -25,6 +26,7 @@ const Input: React.FC<InputProps> = ({
   error,
   className = '',
   max,
+  id,
 }) => {
   const formatCurrency = (value: string): string => {
     const numericValue = value.replace(/[^\d]/g, '');
@@ -56,11 +58,14 @@ const Input: React.FC<InputProps> = ({
     ? value.toLocaleString('fr-FR') 
     : value;
 
+  const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
+  
   return (
     <div className={`input-container ${className}`}>
-      {label && <label className="input-label">{label}</label>}
+      {label && <label htmlFor={inputId} className="input-label">{label}</label>}
       <div className="input-wrapper">
         <input
+          id={inputId}
           type={type === 'currency' ? 'text' : type}
           value={type === 'currency' ? `${currency} ${inputValue}` : inputValue}
           onChange={handleChange}

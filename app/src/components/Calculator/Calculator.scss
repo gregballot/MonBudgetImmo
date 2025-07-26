@@ -147,6 +147,13 @@
   }
 }
 
+.duration-section {
+  border: none;
+  padding: 0;
+  margin: 0;
+  min-inline-size: unset;
+}
+
 // Responsive design
 @media (max-width: 1400px) {
   .calculator-container {

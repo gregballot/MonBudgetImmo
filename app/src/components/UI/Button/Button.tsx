@@ -10,6 +10,8 @@ interface ButtonProps {
   disabled?: boolean;
   type?: 'button' | 'submit' | 'reset';
   className?: string;
+  'aria-label'?: string;
+  'aria-pressed'?: boolean;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -21,6 +23,8 @@ const Button: React.FC<ButtonProps> = ({
   disabled = false,
   type = 'button',
   className = '',
+  'aria-label': ariaLabel,
+  'aria-pressed': ariaPressed,
 }) => {
   return (
     <button
@@ -28,6 +32,8 @@ const Button: React.FC<ButtonProps> = ({
       className={`btn btn-${variant} btn-${size} ${active ? 'btn-active' : ''} ${className}`}
       onClick={onClick}
       disabled={disabled}
+      aria-label={ariaLabel}
+      aria-pressed={ariaPressed}
     >
       {children}
     </button>

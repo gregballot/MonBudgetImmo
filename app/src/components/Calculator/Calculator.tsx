@@ -319,21 +319,23 @@ const Calculator: React.FC = () => {
         </div>
 
         <div className="controls-section">
-          <div className="duration-section">
-            <label className="duration-label">Durée du prêt</label>
-            <div className="duration-buttons">
+          <fieldset className="duration-section">
+            <legend className="duration-label">Durée du prêt</legend>
+            <div className="duration-buttons" role="radiogroup">
               {LOAN_DURATION_OPTIONS.map((duration) => (
                 <Button
                   key={duration}
                   variant="secondary"
                   active={loanDuration === duration}
                   onClick={() => setLoanDuration(duration)}
+                  aria-label={`Durée du prêt: ${duration} ans`}
+                  aria-pressed={loanDuration === duration}
                 >
                   {duration} ans
                 </Button>
               ))}
             </div>
-          </div>
+          </fieldset>
 
           <Slider
             label="Taux d'intérêt"

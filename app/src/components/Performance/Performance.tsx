@@ -8,9 +8,6 @@ const Performance: React.FC = () => {
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />
       <link rel="dns-prefetch" href="//fonts.gstatic.com" />
       
-      {/* Preload critical resources */}
-      <link rel="preload" href="/src/main.tsx" as="script" />
-      
       {/* Resource hints for better performance */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
@@ -24,7 +21,6 @@ const Performance: React.FC = () => {
       
       {/* Security headers */}
       <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
-      <meta httpEquiv="X-Frame-Options" content="DENY" />
       <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
       
       {/* Cache control */}
