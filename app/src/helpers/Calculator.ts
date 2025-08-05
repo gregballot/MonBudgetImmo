@@ -171,6 +171,10 @@ export class MortgageCalculator {
     };
   }
 
+
+
+
+
   private calculateFromMonthly(): CalculationResult {
     // Calculate the property price that would result in the desired monthly payment
     // We need to account for notary fees and down payment in the calculation
@@ -220,6 +224,10 @@ export class MortgageCalculator {
     };
   }
 
+
+
+
+
   private calculateFromSalary(): CalculationResult {
     // In salary mode, the salary is the input and property price is calculated
     // First, calculate the maximum monthly payment this salary can afford
@@ -227,19 +235,34 @@ export class MortgageCalculator {
     const maxMonthlyPayment = this.calculateMaxMonthlyPayment(this.requiredSalary);
 
     // Calculate the property price that would result in this monthly payment
-    const price = this.calculatePropertyPrice(maxMonthlyPayment, this.interestRate, this.loanDuration);
-    const notaryFees = this.calculateNotaryFees(price);
-    const totalPurchaseCost = price + notaryFees;
-    const loanAmount = totalPurchaseCost - this.downPayment;
+    // We need to account for notary fees and down payment in the calculation
+    // This is similar to the monthly mode calculation but in reverse
 
-    // Recalculate actual monthly payment based on the loan amount
-    const actualMonthlyPayment = this.calculateMonthlyPayment(loanAmount, this.interestRate, this.loanDuration);
+    // Start with an estimate: property price = loan amount + down payment
+    // But we need to account for notary fees, so we iterate
+    let propertyPrice = this.calculatePropertyPrice(maxMonthlyPayment, this.interestRate, this.loanDuration);
+    let notaryFees = this.calculateNotaryFees(propertyPrice);
+    let totalPurchaseCost = propertyPrice + notaryFees;
+    let loanAmount = totalPurchaseCost - this.downPayment;
+    let actualMonthlyPayment = this.calculateMonthlyPayment(loanAmount, this.interestRate, this.loanDuration);
+
+    // Iterate to converge on the correct property price
+    for (let i = 0; i < 5; i++) {
+      const adjustment = (actualMonthlyPayment - maxMonthlyPayment) / maxMonthlyPayment * propertyPrice * 0.1;
+      propertyPrice -= adjustment;
+      notaryFees = this.calculateNotaryFees(propertyPrice);
+      totalPurchaseCost = propertyPrice + notaryFees;
+      loanAmount = totalPurchaseCost - this.downPayment;
+      actualMonthlyPayment = this.calculateMonthlyPayment(loanAmount, this.interestRate, this.loanDuration);
+
+      if (Math.abs(actualMonthlyPayment - maxMonthlyPayment) < 1) break; // Close enough
+    }
 
     return {
       monthlyPayment: actualMonthlyPayment,
       requiredSalary: this.requiredSalary, // Keep the input salary unchanged
       totalCost: this.calculateTotalCost(actualMonthlyPayment, this.loanDuration),
-      propertyPrice: price,
+      propertyPrice: propertyPrice,
       loanAmount: loanAmount,
       notaryFees: notaryFees,
       totalPurchaseCost: totalPurchaseCost,

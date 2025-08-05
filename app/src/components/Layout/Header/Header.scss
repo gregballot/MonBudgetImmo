@@ -17,6 +17,11 @@ $color-header-link-hover: $color-secondary;
   left: 0;
   position: fixed;
   z-index: 1000;
+
+  @media (max-width: 768px) {
+    position: relative;
+    box-shadow: none;
+  }
 }
 
 .header-inner {

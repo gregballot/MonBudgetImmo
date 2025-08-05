@@ -100,7 +100,7 @@ const CalculatorResults: React.FC<CalculatorResultsProps> = ({
     if (item.clickable && item.targetMode && item.targetMode !== activeTab) {
       setActiveTab(item.targetMode);
 
-      // Update the first input field with the card value
+      // Update the corresponding input field with the clicked value
       switch (item.targetMode) {
         case 'property':
           setPropertyPrice(Math.round(item.value));

@@ -31,7 +31,7 @@
 // Responsive design
 @media (max-width: 768px) {
   .main-content {
-    margin-top: 60px; // Match mobile header height
+    margin-top: 0; // No margin needed since header is not fixed on mobile
   }
 
   .content-wrapper {
@@ -41,7 +41,7 @@
 
 @media (max-width: 480px) {
   .main-content {
-    margin-top: 60px; // Keep consistent for very small screens
+    margin-top: 0; // No margin needed since header is not fixed on mobile
   }
 
   .content-wrapper {

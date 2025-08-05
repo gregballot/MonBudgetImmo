@@ -38,8 +38,12 @@ const Calculator: React.FC = () => {
   // Validation state
   const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
 
+
+
   // Animation hook
   const animatedValues = useCalculatorAnimation(results);
+
+
 
   // Update calculations when inputs change
   useEffect(() => {
@@ -125,6 +129,7 @@ const Calculator: React.FC = () => {
         setPropertyPrice={setPropertyPrice}
         setMonthlyPayment={setMonthlyPayment}
         setRequiredSalary={setRequiredSalary}
+
       />
     </div>
   );
