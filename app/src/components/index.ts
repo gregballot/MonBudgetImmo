@@ -13,4 +13,4 @@ export { default as Tabs } from './UI/Tabs/Tabs';
 export { default as Calculator } from './Calculator/Calculator';
 
 // Utility components
-export { default as ErrorBoundary } from './ErrorBoundary/ErrorBoundary'; 
+export { default as ErrorBoundary } from './ErrorBoundary/ErrorBoundary';

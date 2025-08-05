@@ -49,7 +49,7 @@ const Slider: React.FC<SliderProps> = ({
     const width = rect.width;
     const percentage = Math.max(0, Math.min(1, x / width));
     const newValue = min + (max - min) * percentage;
-    
+
     // Only apply step constraint when dragging, not when setting from direct input
     if (isDirectInput) {
       const roundedValue = Math.round(newValue * 100) / 100;
@@ -80,7 +80,7 @@ const Slider: React.FC<SliderProps> = ({
     if (isDragging) {
       document.addEventListener('pointermove', handlePointerMove);
       document.addEventListener('pointerup', handlePointerUp);
-      
+
       return () => {
         document.removeEventListener('pointermove', handlePointerMove);
         document.removeEventListener('pointerup', handlePointerUp);
@@ -161,7 +161,7 @@ const Slider: React.FC<SliderProps> = ({
               step={step}
             />
           ) : (
-            <span 
+            <span
               className="slider-value clickable"
               onClick={handleValueClick}
               title="Cliquez pour modifier directement"
@@ -180,11 +180,11 @@ const Slider: React.FC<SliderProps> = ({
           aria-valuenow={value}
           aria-valuetext={formatValue(value)}
         >
-          <div 
-            className="slider-fill" 
+          <div
+            className="slider-fill"
             style={{ width: `${percentage}%` }}
           />
-          <div 
+          <div
             className="slider-thumb"
             style={{ left: `${percentage}%` }}
           />
@@ -199,4 +199,4 @@ const Slider: React.FC<SliderProps> = ({
   );
 };
 
-export default Slider; 
+export default Slider;

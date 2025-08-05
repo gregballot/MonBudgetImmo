@@ -31,18 +31,18 @@ const Input: React.FC<InputProps> = ({
   const formatCurrency = (value: string): string => {
     const numericValue = value.replace(/[^\d]/g, '');
     if (!numericValue) return '';
-    
+
     const number = parseInt(numericValue, 10);
     return number.toLocaleString('fr-FR');
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     let newValue = e.target.value;
-    
+
     if (type === 'currency') {
       newValue = formatCurrency(newValue);
     }
-    
+
     // Apply max constraint if specified
     if (max !== undefined && type === 'currency') {
       const numericValue = parseInt(newValue.replace(/[^\d]/g, ''), 10);
@@ -50,16 +50,16 @@ const Input: React.FC<InputProps> = ({
         newValue = max.toLocaleString('fr-FR');
       }
     }
-    
+
     onChange(newValue);
   };
 
-  const inputValue = type === 'currency' && typeof value === 'number' 
-    ? value.toLocaleString('fr-FR') 
+  const inputValue = type === 'currency' && typeof value === 'number'
+    ? value.toLocaleString('fr-FR')
     : value;
 
   const inputId = id || `input-${Math.random().toString(36).substr(2, 9)}`;
-  
+
   return (
     <div className={`input-container ${className}`}>
       {label && <label htmlFor={inputId} className="input-label">{label}</label>}
@@ -79,4 +79,4 @@ const Input: React.FC<InputProps> = ({
   );
 };
 
-export default Input; 
+export default Input;

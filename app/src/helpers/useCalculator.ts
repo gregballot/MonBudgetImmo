@@ -20,6 +20,10 @@ export const useCalculator = () => {
     downPayment: number;
     loanDuration: number;
     interestRate: number;
+    debtRate: number;
+    existingLoans: number;
+    rentalIncome: number;
+    rentalIncomePercentage: number;
   }, mode: CalculationMode) => {
     const calculator = new MortgageCalculator(inputs);
     const newResults = calculator.calculate(mode);
@@ -27,4 +31,4 @@ export const useCalculator = () => {
   }, []);
 
   return { results, updateCalculation };
-}; 
+};

@@ -4,7 +4,7 @@
   display: flex;
   border-bottom: 1px solid $color-border;
   margin-bottom: 2rem;
-  
+
   .tab-button {
     flex: 1;
     padding: 1rem 1.5rem;
@@ -17,12 +17,12 @@
     transition: all 0.2s ease;
     font-family: $font-family-main;
     border-bottom: 3px solid transparent;
-    
+
     &:hover {
       color: $color-text-primary;
       background: rgba(59, 130, 246, 0.05);
     }
-    
+
     &.tab-active {
       color: $color-secondary;
       font-weight: $font-weight-bold;
@@ -36,7 +36,7 @@
 @media (max-width: 768px) {
   .tabs-container {
     margin-bottom: 1.5rem;
-    
+
     .tab-button {
       padding: 0.75rem 1rem;
       font-size: 0.9rem;
@@ -47,10 +47,32 @@
 @media (max-width: 480px) {
   .tabs-container {
     margin-bottom: 1rem;
-    
+
     .tab-button {
       padding: 0.5rem 0.75rem;
       font-size: 0.85rem;
     }
   }
-} 
+}
+
+// Dark Mode Styles
+.dark-mode {
+  .tabs-container {
+    border-bottom-color: $color-border-dark-mode;
+
+    .tab-button {
+      color: $color-text-secondary-dark;
+
+      &:hover {
+        color: $color-text-primary-dark;
+        background: rgba($color-secondary-dark, 0.05);
+      }
+
+      &.tab-active {
+        color: $color-secondary-dark;
+        border-bottom-color: $color-secondary-dark;
+        background: rgba($color-secondary-dark, 0.1);
+      }
+    }
+  }
+}

@@ -6,15 +6,15 @@ interface GithubIconProps {
   className?: string;
 }
 
-const GithubIcon: React.FC<GithubIconProps> = ({ 
-  width = 20, 
-  height = 20, 
-  className = "" 
+const GithubIcon: React.FC<GithubIconProps> = ({
+  width = 20,
+  height = 20,
+  className = ""
 }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    fill="currentColor" 
-    width={width} 
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    width={width}
     height={height}
     className={className}
   >
@@ -22,4 +22,4 @@ const GithubIcon: React.FC<GithubIconProps> = ({
   </svg>
 );
 
-export default GithubIcon; 
+export default GithubIcon;

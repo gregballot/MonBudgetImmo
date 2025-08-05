@@ -5,6 +5,12 @@ export const CALCULATOR_DEFAULTS = {
   downPayment: 50000,
   loanDuration: 25,
   interestRate: 3.8,
+  // Advanced mode defaults
+  debtRate: 33,
+  existingLoans: 0,
+  rentalIncome: 0,
+  // Salary mode defaults
+  isAnnualSalary: false,
 };
 
 export const LOAN_DURATION_OPTIONS = [10, 15, 20, 25] as const;
@@ -16,5 +22,3 @@ export const CALCULATOR_TABS = [
 ];
 
 export const ANIMATION_DURATION = 500; // milliseconds
-
-export const SALARY_RATIO = 0.33; // 33% rule for mortgage affordability 

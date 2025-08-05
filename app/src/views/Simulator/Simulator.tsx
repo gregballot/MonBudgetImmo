@@ -5,7 +5,7 @@ import "./Simulator.scss";
 
 const Simulateur: React.FC = () => (
   <>
-    <SEO 
+    <SEO
       title="Simulateur Immobilier Gratuit - Calculez votre budget d'achat | Mon Simulateur Immo"
       description="Utilisez notre simulateur immobilier gratuit pour calculer votre budget d'achat. Estimez votre capacité d'emprunt, mensualités et prix maximum selon votre salaire. Calculs basés sur les recommandations HCSF."
       keywords="simulateur immobilier gratuit, calcul budget achat, capacité d'emprunt, mensualité crédit, prix maximum bien, taux d'endettement 35%, HCSF"
@@ -18,4 +18,4 @@ const Simulateur: React.FC = () => (
   </>
 );
 
-export default Simulateur; 
+export default Simulateur;

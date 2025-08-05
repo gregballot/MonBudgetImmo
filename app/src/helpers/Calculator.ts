@@ -5,6 +5,11 @@ export interface CalculationInputs {
   downPayment: number;
   loanDuration: number;
   interestRate: number;
+  // Advanced mode inputs
+  debtRate: number;
+  existingLoans: number;
+  rentalIncome: number;
+  rentalIncomePercentage: number;
 }
 
 export interface CalculationResult {
@@ -30,6 +35,10 @@ export class MortgageCalculator {
       downPayment: 50000,
       loanDuration: 25,
       interestRate: 3.8,
+      debtRate: 33,
+      existingLoans: 0,
+      rentalIncome: 0,
+      rentalIncomePercentage: 70,
       ...inputs
     };
   }
@@ -41,6 +50,10 @@ export class MortgageCalculator {
   get downPayment(): number { return this.inputs.downPayment; }
   get loanDuration(): number { return this.inputs.loanDuration; }
   get interestRate(): number { return this.inputs.interestRate; }
+  get debtRate(): number { return this.inputs.debtRate; }
+  get existingLoans(): number { return this.inputs.existingLoans; }
+  get rentalIncome(): number { return this.inputs.rentalIncome; }
+  get rentalIncomePercentage(): number { return this.inputs.rentalIncomePercentage; }
 
   // Setters for inputs
   set propertyPrice(value: number) { this.inputs.propertyPrice = value; }
@@ -49,21 +62,40 @@ export class MortgageCalculator {
   set downPayment(value: number) { this.inputs.downPayment = value; }
   set loanDuration(value: number) { this.inputs.loanDuration = value; }
   set interestRate(value: number) { this.inputs.interestRate = value; }
+  set debtRate(value: number) { this.inputs.debtRate = value; }
+  set existingLoans(value: number) { this.inputs.existingLoans = value; }
+  set rentalIncome(value: number) { this.inputs.rentalIncome = value; }
+  set rentalIncomePercentage(value: number) { this.inputs.rentalIncomePercentage = value; }
 
   // Core calculation methods
   private calculateMonthlyPayment(principal: number, rate: number, years: number): number {
     const monthlyRate = rate / 100 / 12;
     const numberOfPayments = years * 12;
-    
+
     if (monthlyRate === 0) return principal / numberOfPayments;
-    
-    return principal * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) / 
+
+    return principal * (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments)) /
            (Math.pow(1 + monthlyRate, numberOfPayments) - 1);
   }
 
   private calculateRequiredSalary(monthlyPayment: number): number {
-    // Rule of thumb: monthly payment should not exceed 33% of net salary
-    return monthlyPayment / 0.33;
+    // Calculate required salary considering existing loans and rental income
+    // Only a percentage of rental income is considered (typically 70-80%)
+    const effectiveRentalIncome = this.rentalIncome * (this.rentalIncomePercentage / 100);
+    // Available for new loan = (Monthly payment for new loan) - (Existing loans) + (Effective rental income)
+    const availableForNewLoan = monthlyPayment - this.existingLoans + effectiveRentalIncome;
+    const debtRateDecimal = this.debtRate / 100;
+    return availableForNewLoan / debtRateDecimal;
+  }
+
+  private calculateMaxMonthlyPayment(salary: number): number {
+    // Calculate maximum monthly payment for a given salary considering existing loans and rental income
+    // Only a percentage of rental income is considered (typically 70-80%)
+    const effectiveRentalIncome = this.rentalIncome * (this.rentalIncomePercentage / 100);
+    const debtRateDecimal = this.debtRate / 100;
+    // Maximum available for loans = (Salary * debt rate) + (Effective rental income) - (Existing loans)
+    const maxAvailableForLoans = (salary * debtRateDecimal) + effectiveRentalIncome - this.existingLoans;
+    return Math.max(0, maxAvailableForLoans); // Ensure non-negative
   }
 
   private calculateTotalCost(monthlyPayment: number, years: number): number {
@@ -73,33 +105,33 @@ export class MortgageCalculator {
   private calculatePropertyPrice(monthlyPayment: number, rate: number, years: number): number {
     const monthlyRate = rate / 100 / 12;
     const numberOfPayments = years * 12;
-    
+
     if (monthlyRate === 0) return monthlyPayment * numberOfPayments;
-    
-    return monthlyPayment * (Math.pow(1 + monthlyRate, numberOfPayments) - 1) / 
+
+    return monthlyPayment * (Math.pow(1 + monthlyRate, numberOfPayments) - 1) /
            (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments));
   }
 
   private calculateNotaryFees(propertyPrice: number): number {
     // French notary fees for existing properties (vente d'immeuble existant)
     // Based on actual French regulations and typical online simulators
-    
+
     // For existing properties, notary fees are approximately 7-8% of property price
     // This includes: émoluments de notaire, droits d'enregistrement, taxes diverses
     // The exact percentage varies slightly but 7.93% is commonly used
-    
+
     return propertyPrice * 0.0793; // 7.93% - typical rate for existing properties
   }
 
   // Helper method to get detailed breakdown of notary fees
   getNotaryFeesBreakdown(propertyPrice: number) {
     const totalFees = propertyPrice * 0.0793;
-    
+
     // Approximate breakdown (simplified)
     const notaryEmoluments = totalFees * 0.15; // ~15% of total fees
     const registrationFees = totalFees * 0.73; // ~73% of total fees (droits d'enregistrement)
     const variousTaxes = totalFees * 0.12; // ~12% of total fees (taxes diverses)
-    
+
     return {
       notaryEmoluments,
       registrationFees,
@@ -127,7 +159,7 @@ export class MortgageCalculator {
     const totalPurchaseCost = this.propertyPrice + notaryFees;
     const loanAmount = totalPurchaseCost - this.downPayment;
     const monthly = this.calculateMonthlyPayment(loanAmount, this.interestRate, this.loanDuration);
-    
+
     return {
       monthlyPayment: monthly,
       requiredSalary: this.calculateRequiredSalary(monthly),
@@ -140,38 +172,72 @@ export class MortgageCalculator {
   }
 
   private calculateFromMonthly(): CalculationResult {
-    const property = this.calculatePropertyPrice(this.monthlyPayment, this.interestRate, this.loanDuration);
-    const notaryFees = this.calculateNotaryFees(property);
-    const totalPurchaseCost = property + notaryFees;
-    const loanAmount = totalPurchaseCost - this.downPayment;
-    
-    // Recalculate monthly payment based on actual loan amount
-    const actualMonthlyPayment = this.calculateMonthlyPayment(loanAmount, this.interestRate, this.loanDuration);
-    
+    // Calculate the property price that would result in the desired monthly payment
+    // We need to account for notary fees and down payment in the calculation
+
+    // First, let's calculate what loan amount would give us the desired monthly payment
+    const monthlyRate = this.interestRate / 100 / 12;
+    const numberOfPayments = this.loanDuration * 12;
+
+    let loanAmount: number;
+    if (monthlyRate === 0) {
+      loanAmount = this.monthlyPayment * numberOfPayments;
+    } else {
+      loanAmount = this.monthlyPayment * (Math.pow(1 + monthlyRate, numberOfPayments) - 1) /
+                   (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments));
+    }
+
+    // Now calculate the property price needed to achieve this loan amount
+    // Total purchase cost = loan amount + down payment
+    // Property price = total purchase cost - notary fees
+    // But notary fees depend on property price, so we need to solve this iteratively
+
+    // Start with an estimate: property price = loan amount + down payment
+    let propertyPrice = loanAmount + this.downPayment;
+    let notaryFees = this.calculateNotaryFees(propertyPrice);
+    let totalPurchaseCost = propertyPrice + notaryFees;
+    let newLoanAmount = totalPurchaseCost - this.downPayment;
+
+    // Iterate a few times to converge on the correct property price
+    for (let i = 0; i < 5; i++) {
+      const adjustment = (newLoanAmount - loanAmount) / 1.0793; // 1 + notary fee rate
+      propertyPrice -= adjustment;
+      notaryFees = this.calculateNotaryFees(propertyPrice);
+      totalPurchaseCost = propertyPrice + notaryFees;
+      newLoanAmount = totalPurchaseCost - this.downPayment;
+
+      if (Math.abs(newLoanAmount - loanAmount) < 1) break; // Close enough
+    }
+
     return {
-      monthlyPayment: actualMonthlyPayment,
-      requiredSalary: this.calculateRequiredSalary(actualMonthlyPayment),
-      totalCost: this.calculateTotalCost(actualMonthlyPayment, this.loanDuration),
-      propertyPrice: property,
-      loanAmount: loanAmount,
+      monthlyPayment: this.monthlyPayment, // Use the input monthly payment
+      requiredSalary: this.calculateRequiredSalary(this.monthlyPayment),
+      totalCost: this.calculateTotalCost(this.monthlyPayment, this.loanDuration),
+      propertyPrice: propertyPrice,
+      loanAmount: newLoanAmount,
       notaryFees: notaryFees,
       totalPurchaseCost: totalPurchaseCost,
     };
   }
 
   private calculateFromSalary(): CalculationResult {
-    const payment = this.requiredSalary * 0.33;
-    const price = this.calculatePropertyPrice(payment, this.interestRate, this.loanDuration);
+    // In salary mode, the salary is the input and property price is calculated
+    // First, calculate the maximum monthly payment this salary can afford
+    // considering existing loans and rental income
+    const maxMonthlyPayment = this.calculateMaxMonthlyPayment(this.requiredSalary);
+
+    // Calculate the property price that would result in this monthly payment
+    const price = this.calculatePropertyPrice(maxMonthlyPayment, this.interestRate, this.loanDuration);
     const notaryFees = this.calculateNotaryFees(price);
     const totalPurchaseCost = price + notaryFees;
     const loanAmount = totalPurchaseCost - this.downPayment;
-    
-    // Recalculate monthly payment based on actual loan amount
+
+    // Recalculate actual monthly payment based on the loan amount
     const actualMonthlyPayment = this.calculateMonthlyPayment(loanAmount, this.interestRate, this.loanDuration);
-    
+
     return {
       monthlyPayment: actualMonthlyPayment,
-      requiredSalary: this.requiredSalary,
+      requiredSalary: this.requiredSalary, // Keep the input salary unchanged
       totalCost: this.calculateTotalCost(actualMonthlyPayment, this.loanDuration),
       propertyPrice: price,
       loanAmount: loanAmount,
@@ -210,4 +276,4 @@ export class MortgageCalculator {
       errors
     };
   }
-} 
+}

@@ -33,7 +33,7 @@
   .main-content {
     margin-top: 60px; // Match mobile header height
   }
-  
+
   .content-wrapper {
     padding: 0 $spacing-md;
   }
@@ -43,8 +43,15 @@
   .main-content {
     margin-top: 60px; // Keep consistent for very small screens
   }
-  
+
   .content-wrapper {
     padding: 0 $spacing-sm;
   }
-} 
+}
+
+// Dark Mode Styles
+.dark-mode {
+  .main-content {
+    background: $color-body-bg-dark;
+  }
+}

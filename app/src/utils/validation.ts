@@ -7,21 +7,21 @@ export const VALIDATION_RULES = {
     if (typeof value === 'number') return !isNaN(value) && isFinite(value);
     return value !== null && value !== undefined;
   },
-  
+
   min: (value: number, min: number): boolean => value >= min,
-  
+
   max: (value: number, max: number): boolean => value <= max,
-  
+
   positive: (value: number): boolean => value > 0,
-  
+
   nonNegative: (value: number): boolean => value >= 0,
-  
+
   percentage: (value: number): boolean => value >= 0 && value <= 100,
-  
+
   currency: (value: number): boolean => value >= 0 && value <= 999999999,
-  
+
   integer: (value: number): boolean => Number.isInteger(value),
-  
+
   decimal: (value: number, decimals: number = 2): boolean => {
     const decimalPlaces = value.toString().split('.')[1]?.length || 0;
     return decimalPlaces <= decimals;
@@ -97,9 +97,13 @@ export const validateCalculatorInputs = (inputs: {
   downPayment: number;
   loanDuration: number;
   interestRate: number;
+  debtRate?: number;
+  existingLoans?: number;
+  rentalIncome?: number;
+  rentalIncomePercentage?: number;
 }): ValidationError[] => {
   const errors: ValidationError[] = [];
-  
+
   // Property price validation
   if (!VALIDATION_RULES.required(inputs.propertyPrice)) {
     errors.push({ field: 'propertyPrice', message: 'Le prix du bien est requis' });
@@ -108,7 +112,7 @@ export const validateCalculatorInputs = (inputs: {
   } else if (!VALIDATION_RULES.currency(inputs.propertyPrice)) {
     errors.push({ field: 'propertyPrice', message: 'Le prix du bien doit être un montant valide' });
   }
-  
+
   // Monthly payment validation
   if (!VALIDATION_RULES.required(inputs.monthlyPayment)) {
     errors.push({ field: 'monthlyPayment', message: 'La mensualité est requise' });
@@ -117,7 +121,7 @@ export const validateCalculatorInputs = (inputs: {
   } else if (!VALIDATION_RULES.currency(inputs.monthlyPayment)) {
     errors.push({ field: 'monthlyPayment', message: 'La mensualité doit être un montant valide' });
   }
-  
+
   // Required salary validation
   if (!VALIDATION_RULES.required(inputs.requiredSalary)) {
     errors.push({ field: 'requiredSalary', message: 'Le salaire est requis' });
@@ -126,7 +130,7 @@ export const validateCalculatorInputs = (inputs: {
   } else if (!VALIDATION_RULES.currency(inputs.requiredSalary)) {
     errors.push({ field: 'requiredSalary', message: 'Le salaire doit être un montant valide' });
   }
-  
+
   // Down payment validation
   if (!VALIDATION_RULES.required(inputs.downPayment)) {
     errors.push({ field: 'downPayment', message: "L'apport est requis" });
@@ -135,7 +139,7 @@ export const validateCalculatorInputs = (inputs: {
   } else if (!VALIDATION_RULES.currency(inputs.downPayment)) {
     errors.push({ field: 'downPayment', message: "L'apport doit être un montant valide" });
   }
-  
+
   // Loan duration validation
   if (!VALIDATION_RULES.required(inputs.loanDuration)) {
     errors.push({ field: 'loanDuration', message: 'La durée du prêt est requise' });
@@ -148,7 +152,7 @@ export const validateCalculatorInputs = (inputs: {
   } else if (!VALIDATION_RULES.max(inputs.loanDuration, 50)) {
     errors.push({ field: 'loanDuration', message: 'La durée du prêt ne peut pas dépasser 50 ans' });
   }
-  
+
   // Interest rate validation
   if (!VALIDATION_RULES.required(inputs.interestRate)) {
     errors.push({ field: 'interestRate', message: 'Le taux d\'intérêt est requis' });
@@ -157,10 +161,51 @@ export const validateCalculatorInputs = (inputs: {
   } else if (!VALIDATION_RULES.percentage(inputs.interestRate)) {
     errors.push({ field: 'interestRate', message: 'Le taux d\'intérêt doit être entre 0% et 100%' });
   }
-  
+
   // Note: Down payment validation is now handled by max constraint in the Input component
   // No validation errors for down payment - the input field will enforce the maximum value
-  
+
+  // Advanced mode validations (optional)
+  if (inputs.debtRate !== undefined) {
+    if (!VALIDATION_RULES.required(inputs.debtRate)) {
+      errors.push({ field: 'debtRate', message: 'Le taux d\'endettement est requis' });
+    } else if (!VALIDATION_RULES.percentage(inputs.debtRate)) {
+      errors.push({ field: 'debtRate', message: 'Le taux d\'endettement doit être entre 0% et 100%' });
+    } else if (!VALIDATION_RULES.min(inputs.debtRate, 5)) {
+      errors.push({ field: 'debtRate', message: 'Le taux d\'endettement doit être d\'au moins 5%' });
+    } else if (!VALIDATION_RULES.max(inputs.debtRate, 60)) {
+      errors.push({ field: 'debtRate', message: 'Le taux d\'endettement ne peut pas dépasser 60%' });
+    }
+  }
+
+  if (inputs.existingLoans !== undefined) {
+    if (!VALIDATION_RULES.required(inputs.existingLoans)) {
+      errors.push({ field: 'existingLoans', message: 'Les prêts existants sont requis' });
+    } else if (!VALIDATION_RULES.nonNegative(inputs.existingLoans)) {
+      errors.push({ field: 'existingLoans', message: 'Les prêts existants ne peuvent pas être négatifs' });
+    } else if (!VALIDATION_RULES.currency(inputs.existingLoans)) {
+      errors.push({ field: 'existingLoans', message: 'Les prêts existants doivent être un montant valide' });
+    }
+  }
+
+  if (inputs.rentalIncome !== undefined) {
+    if (!VALIDATION_RULES.required(inputs.rentalIncome)) {
+      errors.push({ field: 'rentalIncome', message: 'Les revenus locatifs sont requis' });
+    } else if (!VALIDATION_RULES.nonNegative(inputs.rentalIncome)) {
+      errors.push({ field: 'rentalIncome', message: 'Les revenus locatifs ne peuvent pas être négatifs' });
+    } else if (!VALIDATION_RULES.currency(inputs.rentalIncome)) {
+      errors.push({ field: 'rentalIncome', message: 'Les revenus locatifs doivent être un montant valide' });
+    }
+  }
+
+  if (inputs.rentalIncomePercentage !== undefined) {
+    if (!VALIDATION_RULES.required(inputs.rentalIncomePercentage)) {
+      errors.push({ field: 'rentalIncomePercentage', message: 'Le pourcentage des revenus locatifs est requis' });
+    } else if (!VALIDATION_RULES.percentage(inputs.rentalIncomePercentage)) {
+      errors.push({ field: 'rentalIncomePercentage', message: 'Le pourcentage des revenus locatifs doit être entre 0% et 100%' });
+    }
+  }
+
   return errors;
 };
 
@@ -172,6 +217,10 @@ export const calculateMaxDownPayment = (inputs: {
   downPayment: number;
   loanDuration: number;
   interestRate: number;
+  debtRate?: number;
+  existingLoans?: number;
+  rentalIncome?: number;
+  rentalIncomePercentage?: number;
 }, _calculationMode?: 'property' | 'monthly' | 'salary'): number => {
   const calculateNotaryFees = (propertyPrice: number): number => {
     return propertyPrice * 0.0793; // 7.93% - typical rate for existing properties
@@ -186,27 +235,30 @@ export const calculateMaxDownPayment = (inputs: {
     const calculatePropertyPrice = (monthlyPayment: number, rate: number, years: number): number => {
       const monthlyRate = rate / 100 / 12;
       const numberOfPayments = years * 12;
-      
+
       if (monthlyRate === 0) return monthlyPayment * numberOfPayments;
-      
-      return monthlyPayment * (Math.pow(1 + monthlyRate, numberOfPayments) - 1) / 
+
+      return monthlyPayment * (Math.pow(1 + monthlyRate, numberOfPayments) - 1) /
              (monthlyRate * Math.pow(1 + monthlyRate, numberOfPayments));
     };
-    
+
     const calculateNotaryFees = (propertyPrice: number): number => {
       return propertyPrice * 0.0793; // 7.93% - typical rate for existing properties
     };
-    
-    const monthlyPayment = _calculationMode === 'monthly' ? inputs.monthlyPayment : (inputs.requiredSalary * 0.33);
+
+    // Use debt rate from advanced mode inputs, fallback to 33% if not provided
+    const debtRate = inputs.debtRate || 33;
+    const debtRateDecimal = debtRate / 100;
+    const monthlyPayment = _calculationMode === 'monthly' ? inputs.monthlyPayment : (inputs.requiredSalary * debtRateDecimal);
     const calculatedPropertyPrice = calculatePropertyPrice(monthlyPayment, inputs.interestRate, inputs.loanDuration);
     const notaryFees = calculateNotaryFees(calculatedPropertyPrice);
     const totalPurchaseCost = calculatedPropertyPrice + notaryFees;
-    
+
     return totalPurchaseCost;
   }
-  
+
   // Default fallback
   return 999999999;
 };
 
- 
+

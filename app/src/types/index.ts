@@ -103,4 +103,4 @@ export interface Theme {
     lg: string;
     xl: string;
   };
-} 
+}
