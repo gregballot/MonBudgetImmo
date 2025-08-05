@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import logo from "../../../assets/logo.png";
 import SunIcon from "../../Icons/SunIcon";
 import MoonIcon from "../../Icons/MoonIcon";
-import { useTheme } from "../../../contexts/ThemeContext";
+import { useTheme } from "../../../hooks/useTheme";
 import "./Header.scss";
 
 const Header: React.FC = () => {

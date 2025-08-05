@@ -4,18 +4,20 @@
   margin: 0 auto;
   padding: $spacing-2xl $spacing-xl;
   min-height: calc(100vh - #{$header-height} - 200px);
+  background: var(--color-body-bg, $color-body-bg);
+  color: var(--color-text-primary, $color-text-primary);
 }
 
 .about-header {
   text-align: center;
   margin-bottom: $spacing-2xl;
   padding-bottom: $spacing-xl;
-  border-bottom: 2px solid $color-border-light;
+  border-bottom: 2px solid var(--color-border-light, $color-border-light);
 
   .about-title {
     font-size: 2.5rem;
     font-weight: $font-weight-bold;
-    color: $color-primary;
+    color: var(--color-text-primary, $color-primary);
     line-height: 1.2;
     margin: 0;
     font-family: $font-family-main;
@@ -38,7 +40,7 @@
   .about-text {
     font-size: 1.1rem;
     line-height: 1.7;
-    color: $color-text-primary;
+    color: var(--color-text-primary, $color-text-primary);
     margin-bottom: $spacing-lg;
     font-family: $font-family-main;
 
@@ -51,7 +53,7 @@
 .section-title {
   font-size: 1.5rem;
   font-weight: $font-weight-bold;
-  color: $color-secondary;
+  color: var(--color-secondary, $color-secondary);
   margin-bottom: $spacing-lg;
   font-family: $font-family-main;
   position: relative;
@@ -63,7 +65,7 @@
     left: 0;
     width: 60px;
     height: 3px;
-    background: $color-secondary;
+    background: var(--color-secondary, $color-secondary);
     border-radius: 2px;
   }
 }
@@ -75,14 +77,14 @@
   li {
     font-size: 1.1rem;
     line-height: 1.6;
-    color: $color-text-primary;
+    color: var(--color-text-primary, $color-text-primary);
     margin-bottom: $spacing-md;
     font-family: $font-family-main;
     position: relative;
 
     &::before {
       content: '•';
-      color: $color-secondary;
+      color: var(--color-secondary, $color-secondary);
       font-weight: bold;
       position: absolute;
       left: -20px;
@@ -98,11 +100,11 @@
   text-align: center;
   margin-top: $spacing-sm;
   padding-top: $spacing-xl;
-  border-top: 2px solid $color-border-light;
+  border-top: 2px solid var(--color-border-light, $color-border-light);
 
   .signature-text {
     font-size: 1.2rem;
-    color: $color-text-secondary;
+    color: var(--color-text-secondary, $color-text-secondary);
     margin-bottom: $spacing-md;
     font-style: italic;
     font-family: $font-family-main;
@@ -111,7 +113,7 @@
   .author-name {
     font-size: 1.3rem;
     font-weight: $font-weight-bold;
-    color: $color-primary;
+    color: var(--color-primary, $color-primary);
     margin: 0;
     font-family: $font-family-main;
   }
