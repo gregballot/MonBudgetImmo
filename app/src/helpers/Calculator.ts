@@ -20,6 +20,8 @@ export interface CalculationResult {
   loanAmount: number;
   notaryFees: number;
   totalPurchaseCost: number;
+  grossSalary: number;
+  totalOperationCost: number;
 }
 
 export type CalculationMode = 'property' | 'monthly' | 'salary';
@@ -98,6 +100,19 @@ export class MortgageCalculator {
     return Math.max(0, maxAvailableForLoans); // Ensure non-negative
   }
 
+  private calculateGrossSalary(netSalary: number): number {
+    // Convert net salary to gross salary (approximate conversion)
+    // This is a simplified calculation - in reality, it depends on many factors
+    // Using a rough estimate: gross = net / 0.75 (assuming ~25% taxes and charges)
+    return netSalary / 0.75;
+  }
+
+  private calculateTotalOperationCost(totalPurchaseCost: number, totalCost: number): number {
+    // Total operation cost = total purchase cost + total credit cost (interest)
+    // This represents the total amount you'll pay over the entire loan period
+    return totalPurchaseCost + totalCost;
+  }
+
 
 
   public calculateLoanAmountFromMonthlyPayment(monthlyPayment: number, rate: number, years: number): number {
@@ -170,6 +185,12 @@ export class MortgageCalculator {
     // Step 6: Calculate total purchase cost = property price + notary fees
     const totalPurchaseCost = this.propertyPrice + notaryFees;
 
+    // Step 7: Calculate gross salary from net salary
+    const grossSalary = this.calculateGrossSalary(requiredSalary);
+
+    // Step 8: Calculate total operation cost
+    const totalOperationCost = this.calculateTotalOperationCost(totalPurchaseCost, totalCost);
+
     return {
       monthlyPayment: monthlyPayment,
       requiredSalary: requiredSalary,
@@ -178,6 +199,8 @@ export class MortgageCalculator {
       loanAmount: loanAmount,
       notaryFees: notaryFees,
       totalPurchaseCost: totalPurchaseCost,
+      grossSalary: grossSalary,
+      totalOperationCost: totalOperationCost,
     };
   }
 
@@ -205,6 +228,12 @@ export class MortgageCalculator {
     // Step 6: Calculate total purchase cost = property price + notary fees
     const totalPurchaseCost = propertyPrice + notaryFees;
 
+    // Step 7: Calculate gross salary from net salary
+    const grossSalary = this.calculateGrossSalary(requiredSalary);
+
+    // Step 8: Calculate total operation cost
+    const totalOperationCost = this.calculateTotalOperationCost(totalPurchaseCost, totalCost);
+
     return {
       monthlyPayment: this.monthlyPayment, // Use the input monthly payment
       requiredSalary: requiredSalary,
@@ -213,6 +242,8 @@ export class MortgageCalculator {
       loanAmount: loanAmount,
       notaryFees: notaryFees,
       totalPurchaseCost: totalPurchaseCost,
+      grossSalary: grossSalary,
+      totalOperationCost: totalOperationCost,
     };
   }
 
@@ -240,6 +271,12 @@ export class MortgageCalculator {
     // Step 6: Calculate total purchase cost = property price + notary fees
     const totalPurchaseCost = propertyPrice + notaryFees;
 
+    // Step 7: Calculate gross salary from net salary
+    const grossSalary = this.calculateGrossSalary(this.requiredSalary);
+
+    // Step 8: Calculate total operation cost
+    const totalOperationCost = this.calculateTotalOperationCost(totalPurchaseCost, totalCost);
+
     return {
       monthlyPayment: monthlyPayment,
       requiredSalary: this.requiredSalary, // Keep the input salary unchanged
@@ -248,6 +285,8 @@ export class MortgageCalculator {
       loanAmount: loanAmount,
       notaryFees: notaryFees,
       totalPurchaseCost: totalPurchaseCost,
+      grossSalary: grossSalary,
+      totalOperationCost: totalOperationCost,
     };
   }
 

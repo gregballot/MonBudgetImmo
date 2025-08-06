@@ -122,12 +122,12 @@ const CalculatorInputs: React.FC<CalculatorInputsProps> = ({
           <>
             <div className="salary-input-group">
               <div className="salary-input-header">
-                <label className="salary-input-label">Salaire</label>
+                <label className="form-label">Salaire</label>
                 <div className="salary-toggles">
                   <div className="salary-period-toggle">
                     <Button
                       variant="secondary"
-                      size="small"
+                      size="sm"
                       active={!isAnnualSalary}
                       onClick={() => setIsAnnualSalary(false)}
                       aria-label="Salaire mensuel"
@@ -137,7 +137,7 @@ const CalculatorInputs: React.FC<CalculatorInputsProps> = ({
                     </Button>
                     <Button
                       variant="secondary"
-                      size="small"
+                      size="sm"
                       active={isAnnualSalary}
                       onClick={() => setIsAnnualSalary(true)}
                       aria-label="Salaire annuel"
@@ -149,7 +149,7 @@ const CalculatorInputs: React.FC<CalculatorInputsProps> = ({
                   <div className="salary-type-toggle">
                     <Button
                       variant="secondary"
-                      size="small"
+                      size="sm"
                       active={isNetSalary}
                       onClick={() => setIsNetSalary(true)}
                       aria-label="Salaire net"
@@ -159,7 +159,7 @@ const CalculatorInputs: React.FC<CalculatorInputsProps> = ({
                     </Button>
                     <Button
                       variant="secondary"
-                      size="small"
+                      size="sm"
                       active={!isNetSalary}
                       onClick={() => setIsNetSalary(false)}
                       aria-label="Salaire brut"

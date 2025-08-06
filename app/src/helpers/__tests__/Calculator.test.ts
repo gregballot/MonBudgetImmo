@@ -76,8 +76,6 @@ describe('MortgageCalculator - Golden Path Tests', () => {
     // When: Calculate in monthly mode
     const result = calculator.calculate('monthly');
 
-
-
     // Then: Verify exact calculated values based on the mathematically correct formula
     expect(result.monthlyPayment).toBe(1170);
     expect(result.loanAmount).toBeCloseTo(226368.41, 2);

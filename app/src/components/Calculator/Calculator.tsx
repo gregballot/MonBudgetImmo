@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import Tabs from '../UI/Tabs/Tabs';
-import Button from '../UI/Button/Button';
 import Slider from '../UI/Slider/Slider';
 import { useCalculator } from '../../helpers/useCalculator';
 import { usePersistentState } from '../../hooks/usePersistentState';
-import { CALCULATOR_TABS, CALCULATOR_DEFAULTS, LOAN_DURATION_OPTIONS } from '../../helpers/constants';
-import { validateCalculatorInputs } from '../../utils/validation';
+import { CALCULATOR_TABS, CALCULATOR_DEFAULTS } from '../../helpers/constants';
+
 import { useCalculatorAnimation } from '../../hooks/useCalculatorAnimation';
 import CalculatorInputs from './CalculatorInputs';
 import CalculatorControls from './CalculatorControls';
@@ -63,8 +62,39 @@ const Calculator: React.FC = () => {
       rentalIncomePercentage,
     };
 
-    // Validate inputs
-    const errors = validateCalculatorInputs(inputs);
+    // Validate only the active input (the one the user is editing)
+    let errors: ValidationError[] = [];
+    
+    // Only validate the input corresponding to the active tab
+    switch (activeTab) {
+      case 'property':
+        if (propertyPrice <= 0) {
+          errors.push({ field: 'propertyPrice', message: 'Le prix du bien doit être positif' });
+        }
+        break;
+      case 'monthly':
+        if (monthlyPayment <= 0) {
+          errors.push({ field: 'monthlyPayment', message: 'La mensualité doit être positive' });
+        }
+        break;
+      case 'salary':
+        if (requiredSalary <= 0) {
+          errors.push({ field: 'requiredSalary', message: 'Le salaire doit être positif' });
+        }
+        break;
+    }
+    
+    // Also validate common inputs that are always required
+    if (downPayment < 0) {
+      errors.push({ field: 'downPayment', message: "L'apport ne peut pas être négatif" });
+    }
+    if (loanDuration <= 0) {
+      errors.push({ field: 'loanDuration', message: 'La durée du prêt doit être positive' });
+    }
+    if (interestRate < 0) {
+      errors.push({ field: 'interestRate', message: 'Le taux d\'intérêt ne peut pas être négatif' });
+    }
+    
     setValidationErrors(errors);
 
     // Only update calculation if there are no validation errors
@@ -72,6 +102,10 @@ const Calculator: React.FC = () => {
       updateCalculation(inputs, activeTab);
     }
   }, [propertyPrice, monthlyPayment, requiredSalary, downPayment, loanDuration, interestRate, debtRate, existingLoans, rentalIncome, rentalIncomePercentage, activeTab, updateCalculation]);
+
+
+
+
 
 
 
@@ -108,23 +142,15 @@ const Calculator: React.FC = () => {
         />
 
         <div className="basic-controls">
-          <fieldset className="duration-section">
-            <legend className="duration-label">Durée du prêt</legend>
-            <div className="duration-buttons" role="radiogroup">
-              {LOAN_DURATION_OPTIONS.map((duration) => (
-                <Button
-                  key={duration}
-                  variant="secondary"
-                  active={loanDuration === duration}
-                  onClick={() => setLoanDuration(duration)}
-                  aria-label={`Durée du prêt: ${duration} ans`}
-                  aria-pressed={loanDuration === duration}
-                >
-                  {duration} ans
-                </Button>
-              ))}
-            </div>
-          </fieldset>
+          <Slider
+            label="Durée du prêt"
+            min={3}
+            max={30}
+            step={1}
+            value={loanDuration}
+            onChange={setLoanDuration}
+            formatValue={(value) => `${value} ans`}
+          />
 
           <Slider
             label="Taux d'intérêt"

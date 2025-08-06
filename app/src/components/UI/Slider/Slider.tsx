@@ -144,7 +144,7 @@ const Slider: React.FC<SliderProps> = ({
 
   return (
     <div className={`slider-container ${className}`}>
-      {label && <div className="slider-label">{label}</div>}
+      {label && <div className="form-label">{label}</div>}
       <div className="slider-wrapper">
         {showValue && (
           isEditing ? (

@@ -62,7 +62,7 @@ const Input: React.FC<InputProps> = ({
 
   return (
     <div className={`input-container ${className}`}>
-      {label && <label htmlFor={inputId} className="input-label">{label}</label>}
+      {label && <label htmlFor={inputId} className="form-label">{label}</label>}
       <div className="input-wrapper">
         <input
           id={inputId}

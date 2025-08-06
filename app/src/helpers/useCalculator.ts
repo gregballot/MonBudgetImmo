@@ -11,6 +11,8 @@ export const useCalculator = () => {
     loanAmount: 0,
     notaryFees: 0,
     totalPurchaseCost: 0,
+    grossSalary: 0,
+    totalOperationCost: 0,
   });
 
   const updateCalculation = useCallback((inputs: {

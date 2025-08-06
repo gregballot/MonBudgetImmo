@@ -11,7 +11,6 @@ export { formatCurrency, formatCurrencyPerMonth, formatPercentage, formatYears }
 // Constants
 export {
   CALCULATOR_DEFAULTS,
-  LOAN_DURATION_OPTIONS,
   CALCULATOR_TABS,
   ANIMATION_DURATION
 } from './constants';

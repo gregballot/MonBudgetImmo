@@ -2,7 +2,7 @@ import React from 'react';
 import Button from '../UI/Button/Button';
 import Slider from '../UI/Slider/Slider';
 import Input from '../UI/Input/Input';
-import { LOAN_DURATION_OPTIONS, CALCULATOR_DEFAULTS } from '../../helpers/constants';
+import { CALCULATOR_DEFAULTS } from '../../helpers/constants';
 import type { ValidationError } from '../../types';
 
 interface CalculatorControlsProps {
@@ -26,10 +26,6 @@ interface CalculatorControlsProps {
 const CalculatorControls: React.FC<CalculatorControlsProps> = ({
   isAdvancedMode,
   setIsAdvancedMode,
-  loanDuration,
-  setLoanDuration,
-  interestRate,
-  setInterestRate,
   debtRate,
   setDebtRate,
   existingLoans,
@@ -79,6 +75,15 @@ const CalculatorControls: React.FC<CalculatorControlsProps> = ({
         </div>
 
         <div className={`advanced-content ${isAdvancedMode ? 'expanded' : 'collapsed'}`}>
+          <Input
+            label="Prêts existants (mensuel)"
+            value={existingLoans}
+            onChange={(value) => setExistingLoans(parseInt(value.replace(/\s/g, '')) || 0)}
+            type="currency"
+            currency="€"
+            error={validationErrors.find(error => error.field === 'existingLoans')?.message}
+          />
+
           <Slider
             label="Taux d'endettement"
             min={5}
@@ -87,15 +92,6 @@ const CalculatorControls: React.FC<CalculatorControlsProps> = ({
             value={debtRate}
             onChange={setDebtRate}
             formatValue={(value) => `${value} %`}
-          />
-
-          <Input
-            label="Prêts existants (mensuel)"
-            value={existingLoans}
-            onChange={(value) => setExistingLoans(parseInt(value.replace(/\s/g, '')) || 0)}
-            type="currency"
-            currency="€"
-            error={validationErrors.find(error => error.field === 'existingLoans')?.message}
           />
 
           <Input

@@ -38,6 +38,27 @@ const CalculatorResults: React.FC<CalculatorResultsProps> = ({
       targetMode: 'monthly' as CalculationMode,
     },
     {
+      label: 'Prix du bien',
+      value: animatedValues.propertyPrice.current,
+      formatter: formatCurrency,
+      isHighlight: false,
+      isAnimating: animatedValues.propertyPrice.isAnimating,
+      clickable: true,
+      targetMode: 'property' as CalculationMode,
+    },
+    {
+      label: 'Salaire brut',
+      value: isAnnualSalary ? animatedValues.grossSalary.current * 12 : animatedValues.grossSalary.current,
+      formatter: (value: number) => {
+        const formattedValue = value.toLocaleString('fr-FR', { minimumFractionDigits: 0, maximumFractionDigits: 2 });
+        return isAnnualSalary ? `${formattedValue} € / an` : `${formattedValue} € / mois`;
+      },
+      isHighlight: false,
+      isAnimating: animatedValues.grossSalary.isAnimating,
+      clickable: true,
+      targetMode: 'salary' as CalculationMode,
+    },
+    {
       label: 'Salaire net requis',
       value: isAnnualSalary ? animatedValues.requiredSalary.current * 12 : animatedValues.requiredSalary.current,
       formatter: (value: number) => {
@@ -48,15 +69,6 @@ const CalculatorResults: React.FC<CalculatorResultsProps> = ({
       isAnimating: animatedValues.requiredSalary.isAnimating,
       clickable: true,
       targetMode: 'salary' as CalculationMode,
-    },
-    {
-      label: 'Prix du bien',
-      value: animatedValues.propertyPrice.current,
-      formatter: formatCurrency,
-      isHighlight: false,
-      isAnimating: animatedValues.propertyPrice.isAnimating,
-      clickable: true,
-      targetMode: 'property' as CalculationMode,
     },
     {
       label: 'Frais de notaire',
@@ -91,6 +103,15 @@ const CalculatorResults: React.FC<CalculatorResultsProps> = ({
       formatter: formatCurrency,
       isHighlight: false,
       isAnimating: animatedValues.totalCost.isAnimating,
+      clickable: false,
+      targetMode: null,
+    },
+    {
+      label: 'Coût total de l\'opération',
+      value: animatedValues.totalOperationCost.current,
+      formatter: formatCurrency,
+      isHighlight: false,
+      isAnimating: animatedValues.totalOperationCost.isAnimating,
       clickable: false,
       targetMode: null,
     },

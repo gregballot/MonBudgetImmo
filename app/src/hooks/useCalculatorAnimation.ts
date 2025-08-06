@@ -16,6 +16,8 @@ export const useCalculatorAnimation = (results: CalculationResult) => {
     loanAmount: { current: 0, target: 0, isAnimating: false },
     notaryFees: { current: 0, target: 0, isAnimating: false },
     totalPurchaseCost: { current: 0, target: 0, isAnimating: false },
+    grossSalary: { current: 0, target: 0, isAnimating: false },
+    totalOperationCost: { current: 0, target: 0, isAnimating: false },
   });
 
   const animationRef = useRef<number | undefined>(undefined);

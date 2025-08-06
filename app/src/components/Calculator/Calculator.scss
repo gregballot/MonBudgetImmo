@@ -30,20 +30,20 @@
   flex-direction: column;
   width: 100%;
   max-width: 100%;
-  overflow-x: hidden;
+  overflow-x: visible;
 
   .calculator-inputs {
-    margin-bottom: $spacing-lg;
+    margin-bottom: 1rem;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
     align-items: stretch;
 
     // Desktop layout: two columns
     @media (min-width: 1024px) {
       display: flex;
       flex-direction: row;
-      gap: 2rem;
+      gap: 1.5rem;
       align-items: flex-start;
       width: 100%;
 
@@ -67,7 +67,7 @@
 
       // Desktop spacing adjustments
       @media (min-width: 1024px) {
-        gap: 1.5rem;
+        gap: 1.25rem;
       }
 
       .salary-input-group {
@@ -77,12 +77,8 @@
           align-items: center;
           margin-bottom: 0.5rem;
 
-          .salary-input-label {
-            font-size: 0.95rem;
-            font-weight: $font-weight-bold;
-            color: var(--color-text-primary, $color-text-primary);
-            font-family: $font-family-main;
-            margin: 0;
+          .form-label {
+            margin: 0; // Override for salary label to align with toggles
           }
 
           .salary-toggles {
@@ -95,8 +91,8 @@
               gap: 0.25rem;
 
               .btn {
-                font-size: 0.75rem;
-                padding: 0.25rem 0.5rem;
+                font-size: 0.7rem;
+                padding: 0.2rem 0.4rem;
                 min-width: auto;
               }
             }
@@ -128,7 +124,7 @@
 
       // Desktop spacing adjustments
       @media (min-width: 1024px) {
-        gap: 1.5rem;
+        gap: 1.25rem;
       }
     }
 
@@ -142,27 +138,7 @@
         gap: 1.5rem;
       }
 
-      .duration-section {
-        .duration-label {
-          display: block;
-          font-size: 0.95rem;
-          font-weight: $font-weight-bold;
-          color: $color-text-primary;
-          margin-bottom: 0.75rem;
-          font-family: $font-family-main;
-        }
-
-        .duration-buttons {
-          display: flex;
-          gap: 0.75rem;
-          flex-wrap: wrap;
-
-          .btn {
-            flex: 1;
-            min-width: 70px;
-          }
-        }
-      }
+      // Duration section removed - now using slider
 
 
 
@@ -288,25 +264,28 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 }
 
 // Advanced panel - spans full width
 .calculator-advanced {
   width: 100%;
+  max-width: 100%;
   display: flex;
   flex-direction: column;
+  box-sizing: border-box;
 
   // Only add top margin when advanced panel is expanded
   &.expanded {
-    margin-top: 1rem;
+    margin-top: 0.75rem;
   }
 
   // Always keep bottom margin for spacing with results
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
 
   .advanced-inputs {
     width: 100%;
+    max-width: 100%;
     padding: 0.5rem 1rem;
     background: #f8fafc;
     border-radius: $border-radius-lg;
@@ -314,6 +293,8 @@
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    box-sizing: border-box;
+    overflow: visible;
 
     // Reduce gap when collapsed to minimize spacing
     .calculator-advanced.collapsed & {
@@ -391,34 +372,38 @@
     }
 
     .advanced-content {
-      display: flex;
-      flex-direction: column;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
       gap: 1rem;
-      overflow: hidden;
+      overflow: visible;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       transform-origin: top;
+      width: 100%;
+      
+      // Responsive: single column on smaller screens
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
       
       &.collapsed {
         max-height: 0;
         opacity: 0;
         transform: scaleY(0);
+        overflow: hidden;
       }
       
       &.expanded {
-        max-height: 500px; // Adjust based on your content
+        max-height: none;
         opacity: 1;
         transform: scaleY(1);
+        overflow: visible;
       }
     }
   }
 }
 
-.duration-section {
-  border: none;
-  padding: 0;
-  margin: 0;
-  min-inline-size: unset;
-}
+// Duration section removed - now using slider
 
 // Responsive design
 @media (max-width: 1400px) {
@@ -472,17 +457,7 @@
       }
 
       .basic-controls {
-        .duration-section {
-          .duration-buttons {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-
-            .btn {
-              width: 100%;
-            }
-          }
-        }
+        // Duration section removed - now using slider
       }
     }
 
@@ -594,13 +569,7 @@
   .calculator-container {
     background: $color-body-bg-dark;
 
-    .controls-section {
-      .duration-section {
-        .duration-label {
-          color: $color-text-primary-dark;
-        }
-      }
-    }
+    // Duration section removed - now using slider
 
     .calculator-advanced {
       .advanced-inputs {

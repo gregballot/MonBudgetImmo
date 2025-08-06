@@ -13,7 +13,7 @@ export const CALCULATOR_DEFAULTS = {
   isAnnualSalary: false,
 };
 
-export const LOAN_DURATION_OPTIONS = [10, 15, 20, 25] as const;
+// Loan duration is now handled by slider (3-30 years)
 
 export const CALCULATOR_TABS = [
   { id: 'property', label: 'Prix du bien' },
