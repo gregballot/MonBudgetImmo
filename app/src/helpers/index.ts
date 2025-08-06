@@ -9,10 +9,8 @@ export { useCalculator } from './useCalculator';
 export { formatCurrency, formatCurrencyPerMonth, formatPercentage, formatYears } from './formatters';
 
 // Constants
-export { 
-  CALCULATOR_DEFAULTS, 
-  LOAN_DURATION_OPTIONS, 
-  CALCULATOR_TABS, 
-  ANIMATION_DURATION, 
-  SALARY_RATIO 
-} from './constants'; 
+export {
+  CALCULATOR_DEFAULTS,
+  CALCULATOR_TABS,
+  ANIMATION_DURATION
+} from './constants';

@@ -1,31 +1,38 @@
-import React, { useState, useEffect, useRef, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Tabs from '../UI/Tabs/Tabs';
-import Input from '../UI/Input/Input';
-import Button from '../UI/Button/Button';
 import Slider from '../UI/Slider/Slider';
 import { useCalculator } from '../../helpers/useCalculator';
-import { formatCurrency, formatCurrencyPerMonth } from '../../helpers/formatters';
-import { LOAN_DURATION_OPTIONS, CALCULATOR_TABS, CALCULATOR_DEFAULTS } from '../../helpers/constants';
-import { validateCalculatorInputs, calculateMaxDownPayment } from '../../utils/validation';
-import type { CalculationMode, CalculationResult } from '../../helpers/Calculator';
+import { usePersistentState } from '../../hooks/usePersistentState';
+import { CALCULATOR_TABS, CALCULATOR_DEFAULTS } from '../../helpers/constants';
+
+import { useCalculatorAnimation } from '../../hooks/useCalculatorAnimation';
+import CalculatorInputs from './CalculatorInputs';
+import CalculatorControls from './CalculatorControls';
+import CalculatorResults from './CalculatorResults';
+import type { CalculationMode } from '../../helpers/Calculator';
 import type { ValidationError } from '../../types';
 import './Calculator.scss';
 
-interface AnimatedValue {
-  current: number;
-  target: number;
-  isAnimating: boolean;
-}
-
 const Calculator: React.FC = () => {
-  // Local state for inputs
-  const [activeTab, setActiveTab] = useState<CalculationMode>('property');
-  const [propertyPrice, setPropertyPrice] = useState(CALCULATOR_DEFAULTS.propertyPrice);
-  const [monthlyPayment, setMonthlyPayment] = useState(CALCULATOR_DEFAULTS.monthlyPayment);
-  const [requiredSalary, setRequiredSalary] = useState(CALCULATOR_DEFAULTS.requiredSalary);
-  const [downPayment, setDownPayment] = useState(CALCULATOR_DEFAULTS.downPayment);
-  const [loanDuration, setLoanDuration] = useState(CALCULATOR_DEFAULTS.loanDuration);
-  const [interestRate, setInterestRate] = useState(CALCULATOR_DEFAULTS.interestRate);
+  // Persistent state for inputs
+  const [activeTab, setActiveTab] = usePersistentState<CalculationMode>('calculator-activeTab', 'property');
+  const [propertyPrice, setPropertyPrice] = usePersistentState('calculator-propertyPrice', CALCULATOR_DEFAULTS.propertyPrice);
+  const [monthlyPayment, setMonthlyPayment] = usePersistentState('calculator-monthlyPayment', CALCULATOR_DEFAULTS.monthlyPayment);
+  const [requiredSalary, setRequiredSalary] = usePersistentState('calculator-requiredSalary', CALCULATOR_DEFAULTS.requiredSalary);
+  const [downPayment, setDownPayment] = usePersistentState('calculator-downPayment', CALCULATOR_DEFAULTS.downPayment);
+  const [loanDuration, setLoanDuration] = usePersistentState('calculator-loanDuration', CALCULATOR_DEFAULTS.loanDuration);
+  const [interestRate, setInterestRate] = usePersistentState('calculator-interestRate', CALCULATOR_DEFAULTS.interestRate);
+
+  // Advanced mode state
+  const [isAdvancedMode, setIsAdvancedMode] = usePersistentState('calculator-isAdvancedMode', false);
+  const [debtRate, setDebtRate] = usePersistentState('calculator-debtRate', CALCULATOR_DEFAULTS.debtRate);
+  const [existingLoans, setExistingLoans] = usePersistentState('calculator-existingLoans', CALCULATOR_DEFAULTS.existingLoans);
+  const [rentalIncome, setRentalIncome] = usePersistentState('calculator-rentalIncome', CALCULATOR_DEFAULTS.rentalIncome);
+  const [rentalIncomePercentage, setRentalIncomePercentage] = usePersistentState('calculator-rentalIncomePercentage', 70);
+
+  // Salary mode state
+  const [isAnnualSalary, setIsAnnualSalary] = usePersistentState('calculator-isAnnualSalary', CALCULATOR_DEFAULTS.isAnnualSalary);
+  const [isNetSalary, setIsNetSalary] = usePersistentState('calculator-isNetSalary', true);
 
   // Hook for calculation results
   const { results, updateCalculation } = useCalculator();
@@ -33,67 +40,12 @@ const Calculator: React.FC = () => {
   // Validation state
   const [validationErrors, setValidationErrors] = useState<ValidationError[]>([]);
 
-  // Animation state
-  const [animatedValues, setAnimatedValues] = useState<Record<keyof CalculationResult, AnimatedValue>>({
-    monthlyPayment: { current: 0, target: 0, isAnimating: false },
-    requiredSalary: { current: 0, target: 0, isAnimating: false },
-    totalCost: { current: 0, target: 0, isAnimating: false },
-    propertyPrice: { current: 0, target: 0, isAnimating: false },
-    loanAmount: { current: 0, target: 0, isAnimating: false },
-    notaryFees: { current: 0, target: 0, isAnimating: false },
-    totalPurchaseCost: { current: 0, target: 0, isAnimating: false },
-  });
 
-  const animationRef = useRef<number | undefined>(undefined);
-  const animatedValuesRef = useRef(animatedValues);
-  const previousResultsRef = useRef<CalculationResult | null>(null);
 
-  // Update ref when animatedValues changes
-  useEffect(() => {
-    animatedValuesRef.current = animatedValues;
-  }, [animatedValues]);
+  // Animation hook
+  const animatedValues = useCalculatorAnimation(results);
 
-  // Animation function
-  const animateValue = useCallback((key: keyof CalculationResult, target: number) => {
-    const currentValue = animatedValuesRef.current[key].current;
-    const startTime = performance.now();
-    const duration = 500; // 0.5 seconds
-    const startValue = currentValue;
-    
-    const animate = (currentTime: number) => {
-      const elapsed = currentTime - startTime;
-      const progress = Math.min(elapsed / duration, 1);
-      
-      // Smooth easing function
-      const easeOut = 1 - Math.pow(1 - progress, 2);
-      const currentValue = startValue + (target - startValue) * easeOut;
-      
-      setAnimatedValues(prev => ({
-        ...prev,
-        [key]: {
-          current: currentValue,
-          target: target,
-          isAnimating: progress < 1
-        }
-      }));
-      
-      if (progress < 1) {
-        animationRef.current = requestAnimationFrame(animate);
-      } else {
-        // Ensure final value is exact
-        setAnimatedValues(prev => ({
-          ...prev,
-          [key]: {
-            current: target,
-            target: target,
-            isAnimating: false
-          }
-        }));
-      }
-    };
-    
-    animationRef.current = requestAnimationFrame(animate);
-  }, []);
+
 
   // Update calculations when inputs change
   useEffect(() => {
@@ -104,243 +56,106 @@ const Calculator: React.FC = () => {
       downPayment,
       loanDuration,
       interestRate,
+      debtRate,
+      existingLoans,
+      rentalIncome,
+      rentalIncomePercentage,
     };
 
-    // Validate inputs
-    const errors = validateCalculatorInputs(inputs);
+    // Validate only the active input (the one the user is editing)
+    let errors: ValidationError[] = [];
+
+    // Only validate the input corresponding to the active tab
+    switch (activeTab) {
+      case 'property':
+        if (propertyPrice <= 0) {
+          errors.push({ field: 'propertyPrice', message: 'Le prix du bien doit être positif' });
+        }
+        break;
+      case 'monthly':
+        if (monthlyPayment <= 0) {
+          errors.push({ field: 'monthlyPayment', message: 'La mensualité doit être positive' });
+        }
+        break;
+      case 'salary':
+        if (requiredSalary <= 0) {
+          errors.push({ field: 'requiredSalary', message: 'Le salaire doit être positif' });
+        }
+        break;
+    }
+
+    // Also validate common inputs that are always required
+    if (downPayment < 0) {
+      errors.push({ field: 'downPayment', message: "L'apport ne peut pas être négatif" });
+    }
+    if (loanDuration <= 0) {
+      errors.push({ field: 'loanDuration', message: 'La durée du prêt doit être positive' });
+    }
+    if (interestRate < 0) {
+      errors.push({ field: 'interestRate', message: 'Le taux d\'intérêt ne peut pas être négatif' });
+    }
+
     setValidationErrors(errors);
 
     // Only update calculation if there are no validation errors
     if (errors.length === 0) {
       updateCalculation(inputs, activeTab);
     }
-  }, [propertyPrice, monthlyPayment, requiredSalary, downPayment, loanDuration, interestRate, activeTab, updateCalculation]);
+  }, [propertyPrice, monthlyPayment, requiredSalary, downPayment, loanDuration, interestRate, debtRate, existingLoans, rentalIncome, rentalIncomePercentage, activeTab, updateCalculation]);
 
-  // Animate results when they change
-  useEffect(() => {
-    // Only animate if we have previous results and they're different
-    if (previousResultsRef.current) {
-      Object.keys(results).forEach((key) => {
-        const resultKey = key as keyof CalculationResult;
-        const targetValue = results[resultKey];
-        const previousValue = previousResultsRef.current![resultKey];
-        
-        // Only animate if the value actually changed
-        if (Math.abs(targetValue - previousValue) > 0.01) {
-          animateValue(resultKey, targetValue);
-        }
-      });
-    } else {
-      // First time - animate all values
-      Object.keys(results).forEach((key) => {
-        const resultKey = key as keyof CalculationResult;
-        animateValue(resultKey, results[resultKey]);
-      });
-    }
-    
-    // Update previous results
-    previousResultsRef.current = { ...results };
-  }, [results, animateValue]);
 
-  // Cleanup animation on unmount
-  useEffect(() => {
-    return () => {
-      if (animationRef.current) {
-        cancelAnimationFrame(animationRef.current);
-      }
-    };
-  }, []);
 
-  const renderInputs = () => {
-    const getFieldError = (fieldName: string) => {
-      return validationErrors.find(error => error.field === fieldName)?.message;
-    };
 
-    // Calculate max down payment based on current mode and inputs
-    const inputs = {
-      propertyPrice,
-      monthlyPayment,
-      requiredSalary,
-      downPayment,
-      loanDuration,
-      interestRate,
-    };
-    const maxDownPayment = calculateMaxDownPayment(inputs, activeTab);
 
-    switch (activeTab) {
-      case 'property':
-        return (
-          <>
-            <Input
-              label="Prix du bien immobilier"
-              value={propertyPrice}
-              onChange={(value) => setPropertyPrice(parseInt(value.replace(/\s/g, '')) || 0)}
-              type="currency"
-              currency="€"
-              error={getFieldError('propertyPrice')}
-            />
-            <Input
-              label="Apport"
-              value={downPayment}
-              onChange={(value) => setDownPayment(parseInt(value.replace(/\s/g, '')) || 0)}
-              type="currency"
-              currency="€"
-              error={getFieldError('downPayment')}
-              max={maxDownPayment}
-            />
-          </>
-        );
 
-      case 'monthly':
-        return (
-          <>
-            <Input
-              label="Mensualité souhaitée"
-              value={monthlyPayment}
-              onChange={(value) => setMonthlyPayment(parseInt(value.replace(/\s/g, '')) || 0)}
-              type="currency"
-              currency="€"
-              error={getFieldError('monthlyPayment')}
-            />
-            <Input
-              label="Apport"
-              value={downPayment}
-              onChange={(value) => setDownPayment(parseInt(value.replace(/\s/g, '')) || 0)}
-              type="currency"
-              currency="€"
-              error={getFieldError('downPayment')}
-              max={maxDownPayment}
-            />
-          </>
-        );
-
-      case 'salary':
-        return (
-          <>
-            <Input
-              label="Salaire net mensuel"
-              value={requiredSalary}
-              onChange={(value) => setRequiredSalary(parseInt(value.replace(/\s/g, '')) || 0)}
-              type="currency"
-              currency="€"
-              error={getFieldError('requiredSalary')}
-            />
-            <Input
-              label="Apport"
-              value={downPayment}
-              onChange={(value) => setDownPayment(parseInt(value.replace(/\s/g, '')) || 0)}
-              type="currency"
-              currency="€"
-              error={getFieldError('downPayment')}
-              max={maxDownPayment}
-            />
-          </>
-        );
-
-      default:
-        return null;
-    }
-  };
-
-  const renderResults = () => {
-    const resultItems = [
-      {
-        label: 'Mensualité estimée',
-        value: animatedValues.monthlyPayment.current,
-        formatter: formatCurrencyPerMonth,
-        isHighlight: true,
-        isAnimating: animatedValues.monthlyPayment.isAnimating,
-      },
-      {
-        label: 'Salaire net requis',
-        value: animatedValues.requiredSalary.current,
-        formatter: formatCurrencyPerMonth,
-        isHighlight: false,
-        isAnimating: animatedValues.requiredSalary.isAnimating,
-      },
-      {
-        label: 'Prix du bien',
-        value: animatedValues.propertyPrice.current,
-        formatter: formatCurrency,
-        isHighlight: false,
-        isAnimating: animatedValues.propertyPrice.isAnimating,
-      },
-      {
-        label: 'Frais de notaire',
-        value: animatedValues.notaryFees.current,
-        formatter: formatCurrency,
-        isHighlight: false,
-        isAnimating: animatedValues.notaryFees.isAnimating,
-      },
-      {
-        label: 'Coût total d\'acquisition',
-        value: animatedValues.totalPurchaseCost.current,
-        formatter: formatCurrency,
-        isHighlight: false,
-        isAnimating: animatedValues.totalPurchaseCost.isAnimating,
-      },
-      {
-        label: 'Montant du prêt',
-        value: animatedValues.loanAmount.current,
-        formatter: formatCurrency,
-        isHighlight: false,
-        isAnimating: animatedValues.loanAmount.isAnimating,
-      },
-      {
-        label: 'Coût total du crédit',
-        value: animatedValues.totalCost.current,
-        formatter: formatCurrency,
-        isHighlight: false,
-        isAnimating: animatedValues.totalCost.isAnimating,
-      },
-    ];
-
-    return resultItems.map((item, index) => (
-      <div key={index} className="result-item">
-        <span className="result-label">{item.label}</span>
-        <span className={`result-value ${item.isHighlight ? 'result-highlight' : ''} ${item.isAnimating ? 'animating' : ''}`}>
-          {item.formatter(item.value)}
-        </span>
-      </div>
-    ));
-  };
 
   return (
     <div className="calculator-container">
-      <Tabs 
-        tabs={CALCULATOR_TABS} 
-        activeTab={activeTab} 
-        onTabChange={(tabId) => setActiveTab(tabId as CalculationMode)} 
+      <Tabs
+        tabs={CALCULATOR_TABS}
+        activeTab={activeTab}
+        onTabChange={(tabId) => setActiveTab(tabId as CalculationMode)}
       />
 
       <div className="calculator-inputs">
-        <div className="input-section">
-          {renderInputs()}
-        </div>
+        <CalculatorInputs
+          activeTab={activeTab}
+          propertyPrice={propertyPrice}
+          setPropertyPrice={setPropertyPrice}
+          monthlyPayment={monthlyPayment}
+          setMonthlyPayment={setMonthlyPayment}
+          requiredSalary={requiredSalary}
+          setRequiredSalary={setRequiredSalary}
+          downPayment={downPayment}
+          setDownPayment={setDownPayment}
+          isAnnualSalary={isAnnualSalary}
+          setIsAnnualSalary={setIsAnnualSalary}
+          isNetSalary={isNetSalary}
+          setIsNetSalary={setIsNetSalary}
+          validationErrors={validationErrors}
+          loanDuration={loanDuration}
+          interestRate={interestRate}
+          debtRate={debtRate}
+          existingLoans={existingLoans}
+          rentalIncome={rentalIncome}
+          rentalIncomePercentage={rentalIncomePercentage}
+        />
 
-        <div className="controls-section">
-          <fieldset className="duration-section">
-            <legend className="duration-label">Durée du prêt</legend>
-            <div className="duration-buttons" role="radiogroup">
-              {LOAN_DURATION_OPTIONS.map((duration) => (
-                <Button
-                  key={duration}
-                  variant="secondary"
-                  active={loanDuration === duration}
-                  onClick={() => setLoanDuration(duration)}
-                  aria-label={`Durée du prêt: ${duration} ans`}
-                  aria-pressed={loanDuration === duration}
-                >
-                  {duration} ans
-                </Button>
-              ))}
-            </div>
-          </fieldset>
+        <div className="basic-controls">
+          <Slider
+            label="Durée du prêt"
+            min={3}
+            max={30}
+            step={1}
+            value={loanDuration}
+            onChange={setLoanDuration}
+            formatValue={(value) => `${value} ans`}
+          />
 
           <Slider
             label="Taux d'intérêt"
-            min={0.5}
-            max={8}
+            min={0.1}
+            max={15}
             step={0.1}
             value={interestRate}
             onChange={setInterestRate}
@@ -349,14 +164,41 @@ const Calculator: React.FC = () => {
         </div>
       </div>
 
-      <div className="calculator-results">
-        <h3 className="results-title">Votre simulation</h3>
-        <div className="results-grid">
-          {renderResults()}
+      {/* Advanced panel - spans full width */}
+      <div className="calculator-advanced-wrapper">
+        <div className={`calculator-advanced ${isAdvancedMode ? 'expanded' : 'collapsed'}`}>
+          <CalculatorControls
+            isAdvancedMode={isAdvancedMode}
+            setIsAdvancedMode={setIsAdvancedMode}
+            loanDuration={loanDuration}
+            setLoanDuration={setLoanDuration}
+            interestRate={interestRate}
+            setInterestRate={setInterestRate}
+            debtRate={debtRate}
+            setDebtRate={setDebtRate}
+            existingLoans={existingLoans}
+            setExistingLoans={setExistingLoans}
+            rentalIncome={rentalIncome}
+            setRentalIncome={setRentalIncome}
+            rentalIncomePercentage={rentalIncomePercentage}
+            setRentalIncomePercentage={setRentalIncomePercentage}
+            validationErrors={validationErrors}
+          />
         </div>
       </div>
+
+      <CalculatorResults
+        animatedValues={animatedValues}
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        isAnnualSalary={isAnnualSalary}
+        setPropertyPrice={setPropertyPrice}
+        setMonthlyPayment={setMonthlyPayment}
+        setRequiredSalary={setRequiredSalary}
+
+      />
     </div>
   );
 };
 
-export default Calculator; 
+export default Calculator;

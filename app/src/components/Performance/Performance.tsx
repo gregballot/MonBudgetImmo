@@ -7,26 +7,26 @@ const Performance: React.FC = () => {
       {/* DNS Prefetch for external domains */}
       <link rel="dns-prefetch" href="//fonts.googleapis.com" />
       <link rel="dns-prefetch" href="//fonts.gstatic.com" />
-      
+
       {/* Resource hints for better performance */}
       <link rel="preconnect" href="https://fonts.googleapis.com" />
       <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-      
+
       {/* Preload fonts if using Google Fonts */}
       {/* <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" as="style" onLoad="this.onload=null;this.rel='stylesheet'" /> */}
-      
+
       {/* Meta tags for performance */}
       <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
       <meta name="format-detection" content="telephone=no" />
-      
+
       {/* Security headers */}
       <meta httpEquiv="X-Content-Type-Options" content="nosniff" />
       <meta httpEquiv="X-XSS-Protection" content="1; mode=block" />
-      
+
       {/* Cache control */}
       <meta httpEquiv="Cache-Control" content="public, max-age=31536000" />
     </Helmet>
   );
 };
 
-export default Performance; 
+export default Performance;

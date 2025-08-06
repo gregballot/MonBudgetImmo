@@ -11,6 +11,8 @@ export const useCalculator = () => {
     loanAmount: 0,
     notaryFees: 0,
     totalPurchaseCost: 0,
+    grossSalary: 0,
+    totalOperationCost: 0,
   });
 
   const updateCalculation = useCallback((inputs: {
@@ -20,6 +22,10 @@ export const useCalculator = () => {
     downPayment: number;
     loanDuration: number;
     interestRate: number;
+    debtRate: number;
+    existingLoans: number;
+    rentalIncome: number;
+    rentalIncomePercentage: number;
   }, mode: CalculationMode) => {
     const calculator = new MortgageCalculator(inputs);
     const newResults = calculator.calculate(mode);
@@ -27,4 +33,4 @@ export const useCalculator = () => {
   }, []);
 
   return { results, updateCalculation };
-}; 
+};

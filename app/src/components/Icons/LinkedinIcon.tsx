@@ -6,15 +6,15 @@ interface LinkedinIconProps {
   className?: string;
 }
 
-const LinkedinIcon: React.FC<LinkedinIconProps> = ({ 
-  width = 20, 
-  height = 20, 
-  className = "" 
+const LinkedinIcon: React.FC<LinkedinIconProps> = ({
+  width = 20,
+  height = 20,
+  className = ""
 }) => (
-  <svg 
-    viewBox="0 0 24 24" 
-    fill="currentColor" 
-    width={width} 
+  <svg
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    width={width}
     height={height}
     className={className}
   >
@@ -22,4 +22,4 @@ const LinkedinIcon: React.FC<LinkedinIconProps> = ({
   </svg>
 );
 
-export default LinkedinIcon; 
+export default LinkedinIcon;

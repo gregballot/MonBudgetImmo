@@ -29,51 +29,123 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  
+  max-width: 100%;
+  overflow-x: visible;
+
   .calculator-inputs {
     margin-bottom: 1rem;
-    display: grid;
-    grid-template-columns: 400px 1fr;
-    gap: 4rem;
-    align-items: start;
-    
-    .input-section {
-      grid-column: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: stretch;
+
+    // Desktop layout: two columns
+    @media (min-width: 1024px) {
       display: flex;
-      flex-direction: column;
-      gap: 1rem;
+      flex-direction: row;
+      gap: 1.5rem;
+      align-items: flex-start;
+      width: 100%;
+
+      .input-section {
+        flex: 1;
+        min-width: 0;
+        width: 50%;
+      }
+
+      .basic-controls {
+        flex: 1;
+        min-width: 0;
+        width: 50%;
+      }
     }
-    
-    .controls-section {
-      grid-column: 2;
+
+    .input-section {
       display: flex;
       flex-direction: column;
       gap: 1rem;
-      
-      .duration-section {
-        .duration-label {
-          display: block;
-          font-size: 0.95rem;
-          font-weight: $font-weight-bold;
-          color: $color-text-primary;
-          margin-bottom: 0.75rem;
-          font-family: $font-family-main;
-        }
-        
-        .duration-buttons {
+
+      // Desktop spacing adjustments
+      @media (min-width: 1024px) {
+        gap: 1.25rem;
+      }
+
+      .salary-input-group {
+        .salary-input-header {
           display: flex;
-          gap: 0.75rem;
-          flex-wrap: wrap;
-          
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 0.5rem;
+
+          .form-label {
+            margin: 0; // Override for salary label to align with toggles
+          }
+
+          .salary-toggles {
+            display: flex;
+            gap: 0.5rem;
+
+            .salary-period-toggle,
+            .salary-type-toggle {
+              display: flex;
+              gap: 0.25rem;
+
+              .btn {
+                font-size: 0.7rem;
+                padding: 0.2rem 0.4rem;
+                min-width: auto;
+              }
+            }
+          }
+        }
+      }
+
+      .salary-input-section {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+
+        .salary-mode-toggle {
+          display: flex;
+          gap: 0.5rem;
+
           .btn {
             flex: 1;
-            min-width: 70px;
+            justify-content: center;
           }
         }
       }
     }
+
+    .basic-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      // Desktop spacing adjustments
+      @media (min-width: 1024px) {
+        gap: 1.25rem;
+      }
+    }
+
+    .controls-section {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+
+      // Desktop spacing adjustments
+      @media (min-width: 1024px) {
+        gap: 1.5rem;
+      }
+
+      // Duration section removed - now using slider
+
+
+
+
+    }
   }
-  
+
   .calculator-results {
     background: white;
     border-radius: $border-radius-xl;
@@ -84,7 +156,8 @@
     -webkit-user-select: none;
     -moz-user-select: none;
     -ms-user-select: none;
-    
+    margin-bottom: $spacing-xl;
+
     .results-title {
       font-size: 1.2rem;
       font-weight: $font-weight-bold;
@@ -93,12 +166,12 @@
       text-align: center;
       font-family: $font-family-main;
     }
-    
+
     .results-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 1rem;
-      
+
       .result-item {
         display: flex;
         flex-direction: column;
@@ -109,12 +182,51 @@
         border-radius: $border-radius-lg;
         border: 1px solid $color-border-light;
         transition: all 0.3s ease;
-        
+
         &:hover {
           transform: translateY(-2px);
           box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         }
-        
+
+        &.clickable {
+          cursor: pointer;
+          position: relative;
+
+          &:hover {
+            background: #f1f5f9;
+            border-color: $color-secondary;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(59, 130, 246, 0.15);
+          }
+
+          &:active {
+            transform: translateY(0);
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.2);
+          }
+
+          &:focus {
+            outline: 2px solid $color-secondary;
+            outline-offset: 2px;
+          }
+
+          &::after {
+            content: '';
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            width: 6px;
+            height: 6px;
+            background: $color-secondary;
+            border-radius: 50%;
+            opacity: 0.6;
+            transition: opacity 0.3s ease;
+          }
+
+          &:hover::after {
+            opacity: 1;
+          }
+        }
+
         .result-label {
           font-size: 0.85rem;
           color: $color-text-secondary;
@@ -122,7 +234,7 @@
           font-family: $font-family-main;
           white-space: nowrap;
         }
-        
+
         .result-value {
           font-size: 1rem;
           font-weight: $font-weight-bold;
@@ -130,12 +242,12 @@
           font-family: $font-family-main;
           white-space: nowrap;
           transition: all 0.3s ease;
-          
+
           &.result-highlight {
             color: $color-secondary;
             font-size: 1.1rem;
           }
-          
+
           // Subtle animation styles
           &.animating {
             animation: subtleFadeIn 0.5s ease-out, subtleGlow 0.8s ease-in-out;
@@ -147,37 +259,171 @@
   }
 }
 
-.duration-section {
-  border: none;
-  padding: 0;
-  margin: 0;
-  min-inline-size: unset;
+// Advanced panel wrapper - matches other sections
+.calculator-advanced-wrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
 }
+
+// Advanced panel - spans full width
+.calculator-advanced {
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+
+  // Only add top margin when advanced panel is expanded
+  &.expanded {
+    margin-top: 0.75rem;
+  }
+
+  // Always keep bottom margin for spacing with results
+  margin-bottom: 1rem;
+
+  .advanced-inputs {
+    width: 100%;
+    max-width: 100%;
+    padding: 0.5rem 1rem;
+    background: #f8fafc;
+    border-radius: $border-radius-lg;
+    border: 1px solid $color-border-light;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    box-sizing: border-box;
+    overflow: visible;
+
+    // Reduce gap when collapsed to minimize spacing
+    .calculator-advanced.collapsed & {
+      gap: 0.5rem;
+    }
+
+    .advanced-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 0;
+
+      .advanced-header-left {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        align-items: flex-start;
+
+        .advanced-toggle-btn {
+          font-size: 0.95rem;
+          font-weight: $font-weight-bold;
+          color: var(--color-text-primary, $color-text-primary);
+          background: transparent;
+          border: none;
+          padding: 0.5rem 0;
+          cursor: pointer;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          text-align: left;
+          align-self: flex-start;
+
+          &:hover {
+            color: var(--color-secondary, $color-secondary);
+          }
+
+          .toggle-arrow {
+            display: inline-block;
+            margin-right: 0.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          }
+        }
+
+        .advanced-summary {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 0.5rem;
+          align-self: flex-start;
+
+          .summary-tag {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--color-text-primary, $color-text-primary);
+            background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.1);
+            border: 1px solid rgba(var(--color-primary-rgb, 59, 130, 246), 0.2);
+            padding: 0.375rem 0.75rem;
+            border-radius: 1rem;
+            font-family: $font-family-main;
+            transition: all 0.2s ease;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+
+            &:hover {
+              background: rgba(var(--color-primary-rgb, 59, 130, 246), 0.15);
+              border-color: rgba(var(--color-primary-rgb, 59, 130, 246), 0.3);
+              transform: translateY(-1px);
+              box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            }
+          }
+        }
+      }
+
+      .btn {
+        font-size: 0.85rem;
+        padding: 0.375rem 0.75rem;
+      }
+    }
+
+    .advanced-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      overflow: visible;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      transform-origin: top;
+      width: 100%;
+
+      // Responsive: single column on smaller screens
+      @media (max-width: 768px) {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+      }
+
+      &.collapsed {
+        max-height: 0;
+        opacity: 0;
+        transform: scaleY(0);
+        overflow: hidden;
+      }
+
+      &.expanded {
+        max-height: none;
+        opacity: 1;
+        transform: scaleY(1);
+        overflow: visible;
+      }
+    }
+  }
+}
+
+// Duration section removed - now using slider
 
 // Responsive design
 @media (max-width: 1400px) {
   .calculator-container {
     padding: 0.5rem $spacing-lg;
-    
+
     .calculator-inputs {
-      grid-template-columns: 350px 1fr;
-      gap: 3rem;
+      gap: 2rem;
     }
   }
 }
 
-@media (max-width: 1024px) {
+@media (max-width: 1023px) {
   .calculator-container {
     padding: 0.5rem $spacing-md;
-    
+
     .calculator-inputs {
-      grid-template-columns: 1fr;
       gap: 1.5rem;
-      
-      .input-section,
-      .controls-section {
-        grid-column: 1;
-      }
+      display: flex !important;
+      flex-direction: column !important;
     }
   }
 }
@@ -185,57 +431,66 @@
 @media (max-width: 768px) {
   .calculator-container {
     padding: 0.5rem $spacing-md;
-    
+
     .calculator-inputs {
-      grid-template-columns: 1fr;
       gap: 1rem;
-      
-      .input-section,
-      .controls-section {
-        grid-column: 1;
-      }
-      
+      display: flex !important;
+      flex-direction: column !important;
+
       .input-section {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
+        display: flex;
+        flex-direction: column;
         gap: 0.75rem;
       }
-      
-      .duration-section {
-        .duration-buttons {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
+
+      .salary-input-group {
+        .salary-input-header {
+          flex-direction: column;
+          align-items: flex-start;
           gap: 0.5rem;
-          
-          .btn {
+
+          .salary-toggles {
             width: 100%;
+            justify-content: space-between;
           }
         }
       }
+
+      .basic-controls {
+        // Duration section removed - now using slider
+      }
     }
-    
+
+    .calculator-advanced-wrapper {
+      .calculator-advanced {
+        .advanced-inputs {
+          padding: 0.5rem 0.75rem;
+        }
+      }
+    }
+
     .calculator-results {
       padding: 1.5rem;
-      
+
       .results-title {
         font-size: 1.1rem;
         margin-bottom: 0.75rem;
       }
-      
+
       .results-grid {
         grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
         gap: 0.5rem;
-        
+
         .result-item {
           padding: 0.5rem;
-          
+
           .result-label {
             font-size: 0.8rem;
           }
-          
+
           .result-value {
             font-size: 0.9rem;
-            
+
             &.result-highlight {
               font-size: 1rem;
             }
@@ -249,45 +504,56 @@
 @media (max-width: 480px) {
   .calculator-container {
     padding: 0.5rem $spacing-sm;
-    
+
     .calculator-inputs {
       gap: 0.75rem;
-      
+      display: flex !important;
+      flex-direction: column !important;
+
       .input-section {
-        grid-template-columns: 1fr 1fr;
         gap: 0.5rem;
       }
-      
-      .duration-section {
-        .duration-buttons {
-          grid-template-columns: repeat(2, 1fr);
-          gap: 0.375rem;
+
+      .basic-controls {
+        .duration-section {
+          .duration-buttons {
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.375rem;
+          }
         }
       }
     }
-    
+
+    .calculator-advanced-wrapper {
+      .calculator-advanced {
+        .advanced-inputs {
+          padding: 0.5rem;
+        }
+      }
+    }
+
     .calculator-results {
       padding: 1rem;
-      
+
       .results-title {
         font-size: 1rem;
         margin-bottom: 0.5rem;
       }
-      
+
       .results-grid {
         grid-template-columns: 1fr;
         gap: 0.5rem;
-        
+
         .result-item {
           padding: 0.75rem;
-          
+
           .result-label {
             font-size: 0.75rem;
           }
-          
+
           .result-value {
             font-size: 0.85rem;
-            
+
             &.result-highlight {
               font-size: 0.95rem;
             }
@@ -296,4 +562,57 @@
       }
     }
   }
-} 
+}
+
+// Dark Mode Styles
+.dark-mode {
+  .calculator-container {
+    background: $color-body-bg-dark;
+
+    // Duration section removed - now using slider
+
+    .calculator-advanced {
+      .advanced-inputs {
+        background: $color-border-light-dark-mode;
+        border: 1px solid $color-border-dark-mode;
+
+        .advanced-header {
+          h4 {
+            color: $color-text-primary-dark;
+          }
+        }
+      }
+    }
+
+    .calculator-results {
+      background: $color-border-light-dark-mode;
+      border: 1px solid $color-border-dark-mode;
+
+      .results-title {
+        color: $color-secondary-dark;
+      }
+
+      .result-item {
+        background: $color-body-bg-dark;
+        border: 1px solid $color-border-dark-mode;
+
+        .result-label {
+          color: $color-text-secondary-dark;
+        }
+
+        .result-value {
+          color: $color-text-primary-dark;
+
+          &.result-highlight {
+            color: $color-secondary-dark;
+          }
+        }
+
+        &.clickable:hover {
+          background: rgba($color-secondary-dark, 0.1);
+          border-color: $color-secondary-dark;
+        }
+      }
+    }
+  }
+}

@@ -5,4 +5,4 @@ Allow: /
 Sitemap: https://mon-simulateur-immo.fr/sitemap.xml
 
 # Crawl-delay for respectful crawling
-Crawl-delay: 1 
+Crawl-delay: 1

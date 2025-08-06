@@ -12,4 +12,4 @@ export const formatPercentage = (value: number): string => {
 
 export const formatYears = (value: number): string => {
   return `${value} ans`;
-}; 
+};

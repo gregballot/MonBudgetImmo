@@ -5,7 +5,7 @@ import "./NotFound.scss";
 
 const NotFound: React.FC = () => (
   <>
-    <SEO 
+    <SEO
       title="Page non trouvée - Mon Simulateur Immo"
       description="La page que vous recherchez n'existe pas. Retournez au simulateur immobilier pour calculer votre budget d'achat."
       canonical="https://mon-simulateur-immo.fr/404"
@@ -31,4 +31,4 @@ const NotFound: React.FC = () => (
   </>
 );
 
-export default NotFound; 
+export default NotFound;
