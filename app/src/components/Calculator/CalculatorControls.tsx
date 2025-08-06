@@ -41,78 +41,44 @@ const CalculatorControls: React.FC<CalculatorControlsProps> = ({
   validationErrors,
 }) => {
   return (
-    <div className="controls-section">
-      {/* Advanced Mode Toggle */}
-      <div className="advanced-mode-section">
-        <div className="advanced-mode-toggle">
-          <Button
-            variant="secondary"
-            active={!isAdvancedMode}
-            onClick={() => setIsAdvancedMode(false)}
-            aria-label="Mode simple"
-            aria-pressed={!isAdvancedMode}
-          >
-            Mode simple
-          </Button>
-          <Button
-            variant="secondary"
-            active={isAdvancedMode}
-            onClick={() => setIsAdvancedMode(true)}
-            aria-label="Mode avancé"
-            aria-pressed={isAdvancedMode}
-          >
-            Mode avancé
-          </Button>
-        </div>
-      </div>
-
-      <fieldset className="duration-section">
-        <legend className="duration-label">Durée du prêt</legend>
-        <div className="duration-buttons" role="radiogroup">
-          {LOAN_DURATION_OPTIONS.map((duration) => (
-            <Button
-              key={duration}
-              variant="secondary"
-              active={loanDuration === duration}
-              onClick={() => setLoanDuration(duration)}
-              aria-label={`Durée du prêt: ${duration} ans`}
-              aria-pressed={loanDuration === duration}
-            >
-              {duration} ans
-            </Button>
-          ))}
-        </div>
-      </fieldset>
-
-      <Slider
-        label="Taux d'intérêt"
-        min={0.1}
-        max={15}
-        step={0.1}
-        value={interestRate}
-        onChange={setInterestRate}
-        formatValue={(value) => `${value.toFixed(2)} %`}
-      />
-
-      {/* Advanced Mode Inputs */}
-      {isAdvancedMode && (
-        <div className="advanced-inputs">
-          <div className="advanced-header">
-            <h4>Paramètres avancés</h4>
+    <div className="advanced-inputs">
+        <div className="advanced-header">
+          <div className="advanced-header-left">
             <Button
               variant="secondary"
-              onClick={() => {
-                setDebtRate(CALCULATOR_DEFAULTS.debtRate);
-                setExistingLoans(CALCULATOR_DEFAULTS.existingLoans);
-                setRentalIncome(CALCULATOR_DEFAULTS.rentalIncome);
-                setRentalIncomePercentage(70);
-              }}
-              aria-label="Réinitialiser les paramètres avancés"
+              onClick={() => setIsAdvancedMode(!isAdvancedMode)}
+              aria-label={isAdvancedMode ? "Masquer les paramètres avancés" : "Afficher les paramètres avancés"}
+              className={`advanced-toggle-btn ${isAdvancedMode ? 'expanded' : 'collapsed'}`}
             >
-              Réinitialiser
+              <span className="toggle-arrow">{isAdvancedMode ? "▼" : "▶"}</span> Paramètres avancés
             </Button>
+            {!isAdvancedMode && (
+              <div className="advanced-summary">
+                <span className="summary-tag">Endettement: {debtRate}%</span>
+                {existingLoans > 0 && (
+                  <span className="summary-tag">Prêts: €{existingLoans.toLocaleString()}</span>
+                )}
+                {rentalIncome > 0 && (
+                  <span className="summary-tag">Locatif: €{rentalIncome.toLocaleString()} ({rentalIncomePercentage}%)</span>
+                )}
+              </div>
+            )}
           </div>
+          <Button
+            variant="secondary"
+            onClick={() => {
+              setDebtRate(CALCULATOR_DEFAULTS.debtRate);
+              setExistingLoans(CALCULATOR_DEFAULTS.existingLoans);
+              setRentalIncome(CALCULATOR_DEFAULTS.rentalIncome);
+              setRentalIncomePercentage(70);
+            }}
+            aria-label="Réinitialiser les paramètres avancés"
+          >
+            Réinitialiser
+          </Button>
+        </div>
 
+        <div className={`advanced-content ${isAdvancedMode ? 'expanded' : 'collapsed'}`}>
           <Slider
             label="Taux d'endettement"
             min={5}
@@ -151,8 +117,7 @@ const CalculatorControls: React.FC<CalculatorControlsProps> = ({
             formatValue={(value) => `${value} %`}
           />
         </div>
-      )}
-    </div>
+      </div>
   );
 };
 

@@ -26,6 +26,11 @@
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
+
+  // Allow wider layout for calculator on desktop
+  @media (min-width: 1024px) {
+    max-width: 1400px;
+  }
 }
 
 // Responsive design

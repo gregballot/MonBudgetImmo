@@ -17,6 +17,8 @@ interface CalculatorInputsProps {
   setDownPayment: (value: number) => void;
   isAnnualSalary: boolean;
   setIsAnnualSalary: (value: boolean) => void;
+  isNetSalary: boolean;
+  setIsNetSalary: (value: boolean) => void;
   validationErrors: ValidationError[];
   loanDuration: number;
   interestRate: number;
@@ -38,6 +40,8 @@ const CalculatorInputs: React.FC<CalculatorInputsProps> = ({
   setDownPayment,
   isAnnualSalary,
   setIsAnnualSalary,
+  isNetSalary,
+  setIsNetSalary,
   validationErrors,
   loanDuration,
   interestRate,
@@ -116,17 +120,79 @@ const CalculatorInputs: React.FC<CalculatorInputsProps> = ({
       case 'salary':
         return (
           <>
-            <Input
-              label={isAnnualSalary ? "Salaire net annuel" : "Salaire net mensuel"}
-              value={isAnnualSalary ? requiredSalary * 12 : requiredSalary}
-              onChange={(value) => {
-                const numValue = parseInt(value.replace(/\s/g, '')) || 0;
-                setRequiredSalary(isAnnualSalary ? numValue / 12 : numValue);
-              }}
-              type="currency"
-              currency="€"
-              error={getFieldError('requiredSalary')}
-            />
+            <div className="salary-input-group">
+              <div className="salary-input-header">
+                <label className="salary-input-label">Salaire</label>
+                <div className="salary-toggles">
+                  <div className="salary-period-toggle">
+                    <Button
+                      variant="secondary"
+                      size="small"
+                      active={!isAnnualSalary}
+                      onClick={() => setIsAnnualSalary(false)}
+                      aria-label="Salaire mensuel"
+                      aria-pressed={!isAnnualSalary}
+                    >
+                      Mensuel
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="small"
+                      active={isAnnualSalary}
+                      onClick={() => setIsAnnualSalary(true)}
+                      aria-label="Salaire annuel"
+                      aria-pressed={isAnnualSalary}
+                    >
+                      Annuel
+                    </Button>
+                  </div>
+                  <div className="salary-type-toggle">
+                    <Button
+                      variant="secondary"
+                      size="small"
+                      active={isNetSalary}
+                      onClick={() => setIsNetSalary(true)}
+                      aria-label="Salaire net"
+                      aria-pressed={isNetSalary}
+                    >
+                      Net
+                    </Button>
+                    <Button
+                      variant="secondary"
+                      size="small"
+                      active={!isNetSalary}
+                      onClick={() => setIsNetSalary(false)}
+                      aria-label="Salaire brut"
+                      aria-pressed={!isNetSalary}
+                    >
+                      Brut
+                    </Button>
+                  </div>
+                </div>
+              </div>
+              <Input
+                label=""
+                value={(() => {
+                  let displayValue = isAnnualSalary ? requiredSalary * 12 : requiredSalary;
+                  // Convert net to brut if needed (net * 1.3 ≈ brut)
+                  if (!isNetSalary) {
+                    displayValue = displayValue * 1.3;
+                  }
+                  return displayValue;
+                })()}
+                onChange={(value) => {
+                  let numValue = parseInt(value.replace(/\s/g, '')) || 0;
+                  // Convert brut to net if needed (brut / 1.3 ≈ net)
+                  if (!isNetSalary) {
+                    numValue = numValue / 1.3;
+                  }
+                  setRequiredSalary(isAnnualSalary ? numValue / 12 : numValue);
+                }}
+                type="currency"
+                currency="€"
+                error={getFieldError('requiredSalary')}
+              />
+            </div>
 
             <Input
               label="Apport"
@@ -147,29 +213,7 @@ const CalculatorInputs: React.FC<CalculatorInputsProps> = ({
 
   return (
     <div className="input-section">
-      {/* Salary Mode Toggle - Available in all modes */}
-      <div className="salary-mode-section">
-        <div className="salary-mode-toggle">
-          <Button
-            variant="secondary"
-            active={!isAnnualSalary}
-            onClick={() => setIsAnnualSalary(false)}
-            aria-label="Salaire mensuel"
-            aria-pressed={!isAnnualSalary}
-          >
-            Mensuel
-          </Button>
-          <Button
-            variant="secondary"
-            active={isAnnualSalary}
-            onClick={() => setIsAnnualSalary(true)}
-            aria-label="Salaire annuel"
-            aria-pressed={isAnnualSalary}
-          >
-            Annuel
-          </Button>
-        </div>
-      </div>
+
 
       {renderTabInputs()}
     </div>

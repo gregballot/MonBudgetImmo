@@ -113,7 +113,7 @@
   .author-name {
     font-size: 1.3rem;
     font-weight: $font-weight-bold;
-    color: var(--color-primary, $color-primary);
+    color: var(--color-text-primary, $color-text-primary);
     margin: 0;
     font-family: $font-family-main;
   }
