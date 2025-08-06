@@ -31,9 +31,14 @@ $color-header-link-hover: $color-secondary;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 $spacing-lg;
+  padding: $spacing-lg $spacing-xl;
   height: 100%;
   box-sizing: border-box;
+
+  // Allow wider layout for calculator on desktop
+  @media (min-width: 1024px) {
+    max-width: 1400px;
+  }
 }
 
 .header-right {
@@ -251,7 +256,7 @@ $color-header-link-hover: $color-secondary;
   }
 
   .header-inner {
-    padding: 0 $spacing-md;
+    padding: $spacing-md $spacing-md;
   }
 
   .header-logo {
@@ -281,7 +286,7 @@ $color-header-link-hover: $color-secondary;
 
 @media (max-width: 480px) {
   .header-inner {
-    padding: 0 $spacing-lg;
+    padding: $spacing-sm $spacing-sm;
   }
 
   .header-title {

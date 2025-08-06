@@ -117,4 +117,4 @@ const CalculatorControls: React.FC<CalculatorControlsProps> = ({
   );
 };
 
-export default CalculatorControls; 
+export default CalculatorControls;

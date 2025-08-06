@@ -85,4 +85,4 @@ describe('MortgageCalculator - Golden Path Tests', () => {
     expect(result.totalCost).toBeCloseTo(124631.59, 2);
     expect(result.totalPurchaseCost).toBeCloseTo(297096.04, 2);
   });
-}); 
+});

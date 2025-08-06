@@ -220,4 +220,4 @@ const CalculatorInputs: React.FC<CalculatorInputsProps> = ({
   );
 };
 
-export default CalculatorInputs; 
+export default CalculatorInputs;

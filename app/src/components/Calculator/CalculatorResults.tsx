@@ -169,4 +169,4 @@ const CalculatorResults: React.FC<CalculatorResultsProps> = ({
   );
 };
 
-export default CalculatorResults; 
+export default CalculatorResults;

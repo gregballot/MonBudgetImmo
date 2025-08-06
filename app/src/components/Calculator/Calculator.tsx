@@ -64,7 +64,7 @@ const Calculator: React.FC = () => {
 
     // Validate only the active input (the one the user is editing)
     let errors: ValidationError[] = [];
-    
+
     // Only validate the input corresponding to the active tab
     switch (activeTab) {
       case 'property':
@@ -83,7 +83,7 @@ const Calculator: React.FC = () => {
         }
         break;
     }
-    
+
     // Also validate common inputs that are always required
     if (downPayment < 0) {
       errors.push({ field: 'downPayment', message: "L'apport ne peut pas être négatif" });
@@ -94,7 +94,7 @@ const Calculator: React.FC = () => {
     if (interestRate < 0) {
       errors.push({ field: 'interestRate', message: 'Le taux d\'intérêt ne peut pas être négatif' });
     }
-    
+
     setValidationErrors(errors);
 
     // Only update calculation if there are no validation errors

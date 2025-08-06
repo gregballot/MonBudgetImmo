@@ -6,4 +6,4 @@
     "allowSyntheticDefaultImports": true
   },
   "include": ["src/**/*.test.ts", "src/**/*.spec.ts", "src/**/__tests__/**/*.ts"]
-} 
+}

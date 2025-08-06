@@ -379,20 +379,20 @@
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       transform-origin: top;
       width: 100%;
-      
+
       // Responsive: single column on smaller screens
       @media (max-width: 768px) {
         grid-template-columns: 1fr;
         gap: 0.75rem;
       }
-      
+
       &.collapsed {
         max-height: 0;
         opacity: 0;
         transform: scaleY(0);
         overflow: hidden;
       }
-      
+
       &.expanded {
         max-height: none;
         opacity: 1;
