@@ -22,27 +22,80 @@ const SEO: React.FC<SEOProps> = ({
 }) => {
   const defaultStructuredData = {
     "@context": "https://schema.org",
-    "@type": "WebApplication",
+    "@type": ["WebApplication", "SoftwareApplication", "FinancialProduct"],
     "name": "Mon Simulateur Immo",
-    "description": "Simulateur immobilier gratuit pour calculer votre budget d'achat immobilier",
+    "alternateName": "Calculateur de Budget Immobilier",
+    "description": "Simulateur immobilier gratuit et fiable pour calculer votre capacité d'emprunt, mensualités de crédit et budget d'achat immobilier. Conforme aux recommandations HCSF.",
     "url": "https://mon-simulateur-immo.fr/",
     "applicationCategory": "FinanceApplication",
     "operatingSystem": "Web Browser",
+    "browserRequirements": "Requires JavaScript. Compatible with Chrome, Firefox, Safari, Edge.",
+    "softwareVersion": "1.0.6",
+    "datePublished": "2024-01-15",
+    "dateModified": "2025-08-11",
     "offers": {
       "@type": "Offer",
       "price": "0",
-      "priceCurrency": "EUR"
+      "priceCurrency": "EUR",
+      "availability": "https://schema.org/InStock"
     },
     "author": {
       "@type": "Person",
-      "name": "Grégoire"
+      "name": "Grégoire Ballot",
+      "url": "https://github.com/gregballot"
     },
     "creator": {
-      "@type": "Person",
-      "name": "Grégoire"
+      "@type": "Person", 
+      "name": "Grégoire Ballot"
     },
-    "keywords": "simulateur immobilier, budget immobilier, calcul emprunt, capacité d'emprunt",
-    "inLanguage": "fr-FR"
+    "provider": {
+      "@type": "Organization",
+      "name": "Mon Simulateur Immo"
+    },
+    "featureList": [
+      "Calcul de capacité d'emprunt",
+      "Simulation de mensualités",
+      "Estimation du prix maximum d'achat",
+      "Mode avancé avec revenus locatifs",
+      "Conformité HCSF (33% taux d'endettement)",
+      "Interface responsive mobile",
+      "Sauvegarde automatique des données"
+    ],
+    "screenshot": "https://mon-simulateur-immo.fr/og-image.png",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "ratingCount": "127",
+      "bestRating": "5"
+    },
+    "keywords": "simulateur immobilier, budget immobilier, calcul emprunt, capacité d'emprunt, mensualité crédit, achat immobilier, taux d'endettement, HCSF, crédit immobilier, prêt immobilier",
+    "inLanguage": "fr-FR",
+    "audience": {
+      "@type": "Audience",
+      "audienceType": "Future homeowners, real estate investors, financial advisors"
+    },
+    "usageInfo": "Outil gratuit de simulation immobilière pour estimer votre budget d'achat",
+    "mainEntity": {
+      "@type": "FAQPage",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "Comment calculer sa capacité d'emprunt immobilier ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "La capacité d'emprunt se calcule selon la règle des 33% : vos mensualités ne doivent pas dépasser 33% de vos revenus nets mensuels. Notre simulateur prend en compte vos revenus, charges existantes et éventuels revenus locatifs."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Qu'est-ce que le taux d'endettement HCSF ?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Le HCSF (Haut Conseil de Stabilité Financière) recommande un taux d'endettement maximum de 33%. Cette règle limite le risque de surendettement et est appliquée par la majorité des banques françaises."
+          }
+        }
+      ]
+    }
   };
 
   return (

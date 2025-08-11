@@ -1,21 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" 
+        xmlns:image="http://www.google.com/schemas/sitemap-image/1.1"
+        xmlns:news="http://www.google.com/schemas/sitemap-news/0.9">
   <url>
     <loc>https://mon-simulateur-immo.fr/</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2025-08-11</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
+    <image:image>
+      <image:loc>https://mon-simulateur-immo.fr/og-image.png</image:loc>
+      <image:title>Mon Simulateur Immo - Calculateur de budget immobilier</image:title>
+      <image:caption>Interface du simulateur immobilier gratuit pour calculer votre capacité d'emprunt</image:caption>
+    </image:image>
   </url>
   <url>
     <loc>https://mon-simulateur-immo.fr/simulateur</loc>
-    <lastmod>2024-01-15</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2025-08-11</lastmod>
+    <changefreq>daily</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://mon-simulateur-immo.fr/a-propos</loc>
-    <lastmod>2024-01-15</lastmod>
+    <lastmod>2025-08-11</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
+  <!-- Add future blog/guide pages here -->
 </urlset>

@@ -1,6 +1,13 @@
 User-agent: *
 Allow: /
 
+# Disallow admin or private areas
+Disallow: /api/
+Disallow: /.git/
+Disallow: /coverage/
+Disallow: /dist/
+Disallow: /node_modules/
+
 # Sitemap location
 Sitemap: https://mon-simulateur-immo.fr/sitemap.xml
 
