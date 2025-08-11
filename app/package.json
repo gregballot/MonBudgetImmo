@@ -1,15 +1,21 @@
 {
   "name": "app",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.1",
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "pnpm run test && pnpm run lint && tsc -b && vite build",
+    "build:ci": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "jest",
-    "test:watch": "jest --watch"
+    "test:watch": "jest --watch",
+    "test:ci": "jest --ci --coverage --watchAll=false",
+    "version:patch": "npm version patch --no-git-tag-version",
+    "version:minor": "npm version minor --no-git-tag-version",
+    "version:major": "npm version major --no-git-tag-version",
+    "deploy": "pnpm run version:patch && git add package.json && git commit -m \"chore: bump version to $(node -p 'require(\"./package.json\").version')\" && git push"
   },
   "dependencies": {
     "react": "^19.1.0",
