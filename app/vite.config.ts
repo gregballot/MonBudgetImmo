@@ -1,10 +1,14 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import { injectSpeedInsights } from '@vercel/speed-insights/plugin';
 import path from 'path';
 
 // https://vite.dev/config/
 export default defineConfig({
-  plugins: [react()],
+  plugins: [
+    react(),
+    injectSpeedInsights(),
+  ],
   resolve: {
     alias: {
       '@styles': path.resolve(__dirname, 'src/styles'),

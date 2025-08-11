@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
-import { Analytics } from "@vercel/analytics/react";
-import { SpeedInsights } from "@vercel/speed-insights/react";
+import { inject as injectAnalytics } from "@vercel/analytics";
 import About from "./views/About/About";
 import Simulator from "./views/Simulator/Simulator";
 import BlogList from "./views/Blog/BlogList";
@@ -11,6 +10,9 @@ import Layout from "./components/Layout/Layout";
 import { ThemeProvider } from "./contexts/ThemeContext";
 
 function App() {
+  // Initialize Vercel Analytics
+  injectAnalytics();
+
   return (
     <ThemeProvider>
       <HelmetProvider>
@@ -26,8 +28,6 @@ function App() {
             </Route>
           </Routes>
         </Router>
-        <Analytics />
-        <SpeedInsights />
       </HelmetProvider>
     </ThemeProvider>
   );

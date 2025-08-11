@@ -12,8 +12,8 @@ importers:
         specifier: ^1.5.0
         version: 1.5.0(react@19.1.0)
       '@vercel/speed-insights':
-        specifier: ^1.2.0
-        version: 1.2.0(react@19.1.0)
+        specifier: 1.2.0-canary.4
+        version: 1.2.0-canary.4(react@19.1.0)
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -803,8 +803,8 @@ packages:
       vue-router:
         optional: true
 
-  '@vercel/speed-insights@1.2.0':
-    resolution: {integrity: sha512-y9GVzrUJ2xmgtQlzFP2KhVRoCglwfRQgjyfY607aU0hh0Un6d0OUyrJkjuAlsV18qR4zfoFPs/BiIj9YDS6Wzw==}
+  '@vercel/speed-insights@1.2.0-canary.4':
+    resolution: {integrity: sha512-WNLvVmBV5za3m77Sv3znHFc8J/iMVKVvGB3lsr7Zbkmfquky/BwXasVwJU3cmQGmkbAr99YkbI4yO8o+97rIXA==}
     peerDependencies:
       '@sveltejs/kit': ^1 || ^2
       next: '>= 13'
@@ -2490,7 +2490,7 @@ snapshots:
     optionalDependencies:
       react: 19.1.0
 
-  '@vercel/speed-insights@1.2.0(react@19.1.0)':
+  '@vercel/speed-insights@1.2.0-canary.4(react@19.1.0)':
     optionalDependencies:
       react: 19.1.0
 
