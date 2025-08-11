@@ -30,6 +30,7 @@ const Header: React.FC = () => {
         <div className="header-right">
           <nav className="header-nav desktop-nav">
             <Link to="/simulateur">Simulateur</Link>
+            <Link to="/blog">Blog</Link>
             <Link to="/a-propos">À propos</Link>
           </nav>
 
@@ -60,6 +61,7 @@ const Header: React.FC = () => {
         <nav className={`mobile-nav ${isMenuOpen ? 'open' : ''}`} onClick={(e) => e.stopPropagation()}>
           <div className="mobile-nav-links">
             <Link to="/simulateur" onClick={closeMenu}>Simulateur</Link>
+            <Link to="/blog" onClick={closeMenu}>Blog</Link>
             <Link to="/a-propos" onClick={closeMenu}>À propos</Link>
             <button
               className="mobile-theme-toggle"

@@ -2,6 +2,8 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 import { HelmetProvider } from "react-helmet-async";
 import About from "./views/About/About";
 import Simulator from "./views/Simulator/Simulator";
+import BlogList from "./views/Blog/BlogList";
+import BlogPost from "./views/Blog/BlogPost";
 import NotFound from "./views/NotFound/NotFound";
 import Layout from "./components/Layout/Layout";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -16,6 +18,8 @@ function App() {
               <Route index element={<Navigate to="/simulateur" replace />} />
               <Route path="a-propos" element={<About />} />
               <Route path="simulateur" element={<Simulator />} />
+              <Route path="blog" element={<BlogList />} />
+              <Route path="blog/:slug" element={<BlogPost />} />
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

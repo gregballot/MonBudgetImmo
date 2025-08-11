@@ -25,5 +25,40 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <!-- Add future blog/guide pages here -->
+  <url>
+    <loc>https://mon-simulateur-immo.fr/blog</loc>
+    <lastmod>2025-08-11</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mon-simulateur-immo.fr/blog/calcul-capacite-emprunt-immobilier-2025</loc>
+    <lastmod>2025-01-15</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mon-simulateur-immo.fr/blog/taux-credit-immobilier-2025-evolutions-previsions</loc>
+    <lastmod>2025-01-10</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mon-simulateur-immo.fr/blog/frais-notaire-immobilier-calcul-economies</loc>
+    <lastmod>2025-01-05</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mon-simulateur-immo.fr/blog/investissement-locatif-rentabilite-fiscalite-2025</loc>
+    <lastmod>2024-12-28</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mon-simulateur-immo.fr/blog/aides-financement-immobilier-ptz-pret-action-logement-2025</loc>
+    <lastmod>2024-12-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>
