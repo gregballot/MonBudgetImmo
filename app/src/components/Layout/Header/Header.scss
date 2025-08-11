@@ -52,10 +52,18 @@ $color-header-link-hover: $color-secondary;
   align-items: center;
 }
 
+.header-brand {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
 .header-logo {
   width: 48px;
   height: 48px;
   margin-right: 1.2rem;
+  display: block;
 }
 
 .header-title {
@@ -64,6 +72,9 @@ $color-header-link-hover: $color-secondary;
   color: $color-header-text;
   letter-spacing: 1px;
   font-family: $font-family-main;
+  line-height: 1;
+  display: flex;
+  align-items: center;
 }
 
 .header-nav {
@@ -268,6 +279,7 @@ $color-header-link-hover: $color-secondary;
   .header-title {
     font-size: 1.2rem;
     letter-spacing: 0.5px;
+    line-height: 1;
   }
 
   // Hide desktop navigation and theme toggle on mobile
@@ -292,6 +304,7 @@ $color-header-link-hover: $color-secondary;
   .header-title {
     font-size: 1rem;
     letter-spacing: 0.25px;
+    line-height: 1;
   }
 
   .mobile-nav {

@@ -13,7 +13,7 @@ This is a React + TypeScript mortgage calculator application called "Mon Budget 
 - **Styling**: SCSS with CSS modules pattern
 - **Routing**: React Router DOM 7.7.1
 - **SEO**: React Helmet Async 2.0.5
-- **Testing**: Jest 30.0.5 with ts-jest
+- **Testing**: Vitest 3.2.4
 - **Linting**: ESLint 9.30.1
 - **Package Manager**: pnpm (has pnpm-lock.yaml)
 
@@ -77,12 +77,22 @@ The app follows a standard React architecture with clear separation of concerns:
 - **Theme State**: Context-based with system preference integration
 - **Validation**: Separate validation system with field-specific and cross-field validation
 
-### Testing Strategy
+### Test Setup
 
-- Jest configuration with ts-jest for TypeScript support
-- Tests located in `__tests__` directories
-- Coverage collection from `src/**/*.ts` files
-- Example: `src/helpers/__tests__/Calculator.test.ts`
+- **Test Runner**: Uses [Vitest](https://vitest.dev/) for fast unit and component testing.
+- **How to Run**:  
+  - Run all tests: `pnpm test`
+  - Watch mode: `pnpm test:watch`
+- **Test Files**:  
+  - Located alongside source files in `__tests__` folders or as `.test.ts(x)` files.
+  - Example: `src/utils/__tests__/calculatorValidation.test.ts`
+- **Setup**:  
+  - Global test config in `src/setupTests.ts` (mocks localStorage, configures Vitest).
+- **Best Practices**:  
+  - Write focused unit tests for utilities and business logic.
+  - Use React Testing Library for component tests.
+  - Ensure new features include relevant tests.
+
 
 ### Build Configuration
 
