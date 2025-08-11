@@ -1,5 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { HelmetProvider } from "react-helmet-async";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 import About from "./views/About/About";
 import Simulator from "./views/Simulator/Simulator";
 import BlogList from "./views/Blog/BlogList";
@@ -24,6 +26,8 @@ function App() {
             </Route>
           </Routes>
         </Router>
+        <Analytics />
+        <SpeedInsights />
       </HelmetProvider>
     </ThemeProvider>
   );

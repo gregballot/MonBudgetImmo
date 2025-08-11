@@ -20,6 +20,8 @@
     "deploy": "pnpm run test:run && pnpm run lint && pnpm run version:patch && git add package.json && git commit -m \"chore: bump version to $(node -p 'require(\"./package.json\").version')\" && git push"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.5.0",
+    "@vercel/speed-insights": "^1.2.0",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
     "react-helmet-async": "^2.0.5",
