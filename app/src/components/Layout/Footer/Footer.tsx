@@ -13,7 +13,7 @@ const Footer: React.FC = () => (
             Calculez votre budget immobilier en un éclair.
           </div>
           <div className="footer-links">
-            <Link to="/simulateur">Simulateur</Link>
+            <Link to="/">Simulateur</Link>
             <Link to="/blog">Blog Immobilier</Link>
             <Link to="/a-propos">À propos</Link>
           </div>

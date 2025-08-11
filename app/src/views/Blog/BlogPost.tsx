@@ -224,7 +224,7 @@ const BlogPost: React.FC = () => {
               Appliquez les conseils de cet article avec notre simulateur gratuit.
               Obtenez votre capacité d'emprunt en 30 secondes !
             </p>
-            <Link to="/simulateur" className="cta-button">
+            <Link to="/" className="cta-button">
               Utiliser le Simulateur
             </Link>
           </div>

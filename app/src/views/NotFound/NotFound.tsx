@@ -19,7 +19,7 @@ const NotFound: React.FC = () => (
           Désolé, la page que vous recherchez n'existe pas ou a été déplacée.
         </p>
         <div className="not-found-actions">
-          <Link to="/simulateur" className="not-found-link primary">
+          <Link to="/" className="not-found-link primary">
             Retourner au simulateur
           </Link>
           <Link to="/a-propos" className="not-found-link secondary">

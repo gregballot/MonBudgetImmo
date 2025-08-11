@@ -14,11 +14,11 @@ function App() {
       <HelmetProvider>
         <Router>
           <Routes>
-            <Route path="/" element={<Layout />}>
-              <Route index element={<Navigate to="/simulateur" replace />} />
-              <Route path="a-propos" element={<About />} />
-              <Route path="simulateur" element={<Simulator />} />
-              <Route path="blog" element={<BlogList />} />
+                          <Route path="/" element={<Layout />}>
+                <Route index element={<Simulator />} />
+                                <Route path="a-propos" element={<About />} />
+                <Route path="simulateur" element={<Navigate to="/" replace />} />
+                <Route path="blog" element={<BlogList />} />
               <Route path="blog/:slug" element={<BlogPost />} />
               <Route path="*" element={<NotFound />} />
             </Route>

@@ -110,7 +110,7 @@ const BlogList: React.FC = () => {
             Après avoir lu nos guides, utilisez notre simulateur gratuit pour 
             estimer votre capacité d'emprunt et votre budget d'achat.
           </p>
-          <Link to="/simulateur" className="cta-button">
+          <Link to="/" className="cta-button">
             Accéder au Simulateur
           </Link>
         </div>

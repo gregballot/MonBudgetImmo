@@ -92,7 +92,7 @@ Notre simulateur intègre automatiquement :
 - ✅ Mode avancé avec revenus locatifs
 - ✅ Calculs précis selon votre profil
 
-[➡️ Testez gratuitement votre capacité d'emprunt](/simulateur)
+[➡️ Testez gratuitement votre capacité d'emprunt](/)
 
 ## Erreurs Courantes à Éviter
 
@@ -234,7 +234,7 @@ Pensez à la délégation d'assurance pour optimiser vos coûts.
 - Stabilisez votre situation professionnelle
 
 ### 3. Utilisez les Outils Disponibles
-[➡️ Simulez votre mensualité avec les taux actuels](/simulateur)
+[➡️ Simulez votre mensualité avec les taux actuels](/)
 
 ## Conclusion
 
@@ -388,7 +388,7 @@ Notre simulateur intègre automatiquement :
 - ✅ Impact sur votre budget global
 - ✅ Optimisation de votre capacité d'achat
 
-[➡️ Calculez vos frais de notaire instantanément](/simulateur)
+[➡️ Calculez vos frais de notaire instantanément](/)
 
 ## Financement des Frais de Notaire
 
@@ -602,7 +602,7 @@ Notre simulateur intègre le mode investissement locatif :
 - ✅ Simulation avec apport personnalisé
 - ✅ Impact fiscal selon votre situation
 
-[➡️ Simulez votre investissement locatif](/simulateur)
+[➡️ Simulez votre investissement locatif](/)
 
 ## Risques et Précautions
 
@@ -902,7 +902,7 @@ Notre calculateur intègre les principales aides :
 - ✅ Impact sur votre capacité totale
 - ✅ Optimisation de votre plan de financement
 
-[➡️ Simulez avec les aides disponibles](/simulateur)
+[➡️ Simulez avec les aides disponibles](/)
 
 ## Conclusion : Maximiser vos Chances
 
