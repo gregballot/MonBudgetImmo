@@ -11,9 +11,6 @@ importers:
       '@vercel/analytics':
         specifier: ^1.5.0
         version: 1.5.0(react@19.1.0)
-      '@vercel/speed-insights':
-        specifier: 1.2.0-canary.4
-        version: 1.2.0-canary.4(react@19.1.0)
       react:
         specifier: ^19.1.0
         version: 19.1.0
@@ -790,29 +787,6 @@ packages:
     peerDependenciesMeta:
       '@remix-run/react':
         optional: true
-      '@sveltejs/kit':
-        optional: true
-      next:
-        optional: true
-      react:
-        optional: true
-      svelte:
-        optional: true
-      vue:
-        optional: true
-      vue-router:
-        optional: true
-
-  '@vercel/speed-insights@1.2.0-canary.4':
-    resolution: {integrity: sha512-WNLvVmBV5za3m77Sv3znHFc8J/iMVKVvGB3lsr7Zbkmfquky/BwXasVwJU3cmQGmkbAr99YkbI4yO8o+97rIXA==}
-    peerDependencies:
-      '@sveltejs/kit': ^1 || ^2
-      next: '>= 13'
-      react: ^18 || ^19 || ^19.0.0-rc
-      svelte: '>= 4'
-      vue: ^3
-      vue-router: ^4
-    peerDependenciesMeta:
       '@sveltejs/kit':
         optional: true
       next:
@@ -2487,10 +2461,6 @@ snapshots:
       eslint-visitor-keys: 4.2.1
 
   '@vercel/analytics@1.5.0(react@19.1.0)':
-    optionalDependencies:
-      react: 19.1.0
-
-  '@vercel/speed-insights@1.2.0-canary.4(react@19.1.0)':
     optionalDependencies:
       react: 19.1.0
 
