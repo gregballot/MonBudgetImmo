@@ -45,22 +45,47 @@
   .article-card {
     background: var(--card-background);
     border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 1.5rem;
+    border-radius: 16px;
+    overflow: hidden;
     transition: all 0.3s ease;
     height: 100%;
     display: flex;
     flex-direction: column;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    position: relative;
+
+    // Add gradient background overlay
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 80px;
+      background: linear-gradient(135deg, var(--primary-color), var(--accent-color));
+      opacity: 0.08;
+      z-index: 1;
+    }
 
     &:hover {
-      transform: translateY(-4px);
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+      transform: translateY(-6px);
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
       border-color: var(--primary-color);
+
+      &::before {
+        opacity: 0.15;
+      }
     }
 
     [data-theme="dark"] & {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+
       &:hover {
-        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+      }
+
+      &::before {
+        opacity: 0.12;
       }
     }
 
@@ -68,6 +93,9 @@
       flex: 1;
       display: flex;
       flex-direction: column;
+      padding: 1.5rem;
+      position: relative;
+      z-index: 2;
     }
 
     .article-meta {
@@ -125,12 +153,13 @@
 
       .tag {
         background: var(--tag-background);
-        color: var(--tag-color);
-        padding: 0.25rem 0.75rem;
+        color: var(--tag-text);
+        padding: 0.4rem 0.9rem;
         border-radius: 20px;
         font-size: 0.8rem;
         font-weight: 500;
-        border: 1px solid var(--border-color);
+        border: 1px solid var(--tag-border);
+        backdrop-filter: blur(10px);
       }
     }
 
@@ -175,7 +204,7 @@
 
     .cta-button {
       display: inline-block;
-      background: white;
+      background: rgba(255, 255, 255, 0.95);
       color: var(--primary-color);
       padding: 1rem 2rem;
       border-radius: 8px;
@@ -183,10 +212,13 @@
       font-weight: 600;
       font-size: 1.1rem;
       transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
 
       &:hover {
         transform: translateY(-2px);
         box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        background: white;
       }
     }
   }
@@ -272,12 +304,12 @@
 
       .tag {
         background: var(--tag-background);
-        color: var(--tag-color);
+        color: var(--tag-text);
         padding: 0.5rem 1rem;
         border-radius: 25px;
         font-size: 0.85rem;
         font-weight: 500;
-        border: 1px solid var(--border-color);
+        border: 1px solid var(--tag-border);
       }
     }
   }
@@ -291,7 +323,7 @@
       font-size: 2rem;
       font-weight: 700;
       color: var(--primary-color);
-      margin: 2.5rem 0 1.5rem;
+      margin: 2rem 0 1rem;
       line-height: 1.3;
     }
 
@@ -299,23 +331,24 @@
       font-size: 1.5rem;
       font-weight: 600;
       color: var(--text-color);
-      margin: 2rem 0 1rem;
+      margin: 1.8rem 0 0.8rem;
       line-height: 1.4;
       border-bottom: 2px solid var(--border-color);
-      padding-bottom: 0.5rem;
+      padding-bottom: 0.4rem;
     }
 
     .content-h3 {
       font-size: 1.25rem;
       font-weight: 600;
       color: var(--text-color);
-      margin: 1.5rem 0 1rem;
+      margin: 1.5rem 0 0.8rem;
       line-height: 1.4;
     }
 
     .content-paragraph {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1rem;
       text-align: justify;
+      line-height: 1.7;
 
       strong {
         color: var(--primary-color);
@@ -350,11 +383,11 @@
     }
 
     .content-list {
-      margin: 1.5rem 0;
-      padding-left: 2rem;
+      margin: 1rem 0;
+      padding-left: 1.5rem;
 
       li {
-        margin-bottom: 0.75rem;
+        margin-bottom: 0.5rem;
         line-height: 1.6;
 
         &::marker {
@@ -438,7 +471,7 @@
 
       .cta-button {
         display: inline-block;
-        background: white;
+        background: rgba(255, 255, 255, 0.95);
         color: var(--primary-color);
         padding: 1rem 2rem;
         border-radius: 8px;
@@ -446,10 +479,13 @@
         font-weight: 600;
         font-size: 1.1rem;
         transition: all 0.3s ease;
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
 
         &:hover {
           transform: translateY(-2px);
           box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          background: white;
         }
       }
     }
@@ -567,16 +603,18 @@
 
 // CSS Variables for theming
 :root {
-  --tag-background: #f0f7ff;
-  --tag-color: #2563eb;
+  --tag-background: rgba(37, 99, 235, 0.1);
+  --tag-text: #2563eb;
+  --tag-border: rgba(37, 99, 235, 0.2);
   --code-background: #f8fafc;
   --code-color: #334155;
   --hover-background: #f8fafc;
 }
 
 [data-theme="dark"] {
-  --tag-background: #1e293b;
-  --tag-color: #60a5fa;
+  --tag-background: rgba(96, 165, 250, 0.15);
+  --tag-text: #93c5fd;
+  --tag-border: rgba(96, 165, 250, 0.3);
   --code-background: #1e293b;
   --code-color: #e2e8f0;
   --hover-background: #334155;
