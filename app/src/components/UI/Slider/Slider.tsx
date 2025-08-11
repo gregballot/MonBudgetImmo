@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { CALCULATOR_CONSTANTS } from '../../../constants/calculator';
 import './Slider.scss';
 
 interface SliderProps {
@@ -70,8 +71,8 @@ const Slider: React.FC<SliderProps> = ({
       setTimeout(() => {
         setShowTooltip(false);
         setIsTooltipFading(false);
-      }, 300);
-    }, 2000);
+      }, CALCULATOR_CONSTANTS.TOOLTIP_FADE_DURATION);
+    }, CALCULATOR_CONSTANTS.TOOLTIP_DELAY);
   }, []);
 
   // Legacy mouse event handlers for backward compatibility - removed unused handlers

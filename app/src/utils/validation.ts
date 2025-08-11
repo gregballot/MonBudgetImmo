@@ -1,4 +1,5 @@
 import type { ValidationError } from '../types';
+import { CALCULATOR_CONSTANTS, VALIDATION_LIMITS } from '../constants/calculator';
 
 // Validation rules
 export const VALIDATION_RULES = {
@@ -18,7 +19,7 @@ export const VALIDATION_RULES = {
 
   percentage: (value: number): boolean => value >= 0 && value <= 100,
 
-  currency: (value: number): boolean => value >= 0 && value <= 999999999,
+  currency: (value: number): boolean => value >= CALCULATOR_CONSTANTS.MIN_CURRENCY_VALUE && value <= CALCULATOR_CONSTANTS.MAX_CURRENCY_VALUE,
 
   integer: (value: number): boolean => Number.isInteger(value),
 
@@ -147,10 +148,10 @@ export const validateCalculatorInputs = (inputs: {
     errors.push({ field: 'loanDuration', message: 'La durée du prêt doit être positive' });
   } else if (!VALIDATION_RULES.integer(inputs.loanDuration)) {
     errors.push({ field: 'loanDuration', message: 'La durée du prêt doit être un nombre entier' });
-  } else if (!VALIDATION_RULES.min(inputs.loanDuration, 1)) {
-    errors.push({ field: 'loanDuration', message: 'La durée du prêt doit être d\'au moins 1 an' });
-  } else if (!VALIDATION_RULES.max(inputs.loanDuration, 50)) {
-    errors.push({ field: 'loanDuration', message: 'La durée du prêt ne peut pas dépasser 50 ans' });
+  } else if (!VALIDATION_RULES.min(inputs.loanDuration, VALIDATION_LIMITS.minLoanDuration)) {
+    errors.push({ field: 'loanDuration', message: `La durée du prêt doit être d'au moins ${VALIDATION_LIMITS.minLoanDuration} an${VALIDATION_LIMITS.minLoanDuration > 1 ? 's' : ''}` });
+  } else if (!VALIDATION_RULES.max(inputs.loanDuration, VALIDATION_LIMITS.maxLoanDuration)) {
+    errors.push({ field: 'loanDuration', message: `La durée du prêt ne peut pas dépasser ${VALIDATION_LIMITS.maxLoanDuration} ans` });
   }
 
   // Interest rate validation
@@ -171,10 +172,10 @@ export const validateCalculatorInputs = (inputs: {
       errors.push({ field: 'debtRate', message: 'Le taux d\'endettement est requis' });
     } else if (!VALIDATION_RULES.percentage(inputs.debtRate)) {
       errors.push({ field: 'debtRate', message: 'Le taux d\'endettement doit être entre 0% et 100%' });
-    } else if (!VALIDATION_RULES.min(inputs.debtRate, 5)) {
-      errors.push({ field: 'debtRate', message: 'Le taux d\'endettement doit être d\'au moins 5%' });
-    } else if (!VALIDATION_RULES.max(inputs.debtRate, 60)) {
-      errors.push({ field: 'debtRate', message: 'Le taux d\'endettement ne peut pas dépasser 60%' });
+    } else if (!VALIDATION_RULES.min(inputs.debtRate, VALIDATION_LIMITS.minDebtRate)) {
+      errors.push({ field: 'debtRate', message: `Le taux d'endettement doit être d'au moins ${VALIDATION_LIMITS.minDebtRate}%` });
+    } else if (!VALIDATION_RULES.max(inputs.debtRate, VALIDATION_LIMITS.maxDebtRate)) {
+      errors.push({ field: 'debtRate', message: `Le taux d'endettement ne peut pas dépasser ${VALIDATION_LIMITS.maxDebtRate}%` });
     }
   }
 
@@ -223,7 +224,7 @@ export const calculateMaxDownPayment = (inputs: {
   rentalIncomePercentage?: number;
 }, _calculationMode?: 'property' | 'monthly' | 'salary'): number => {
   const calculateNotaryFees = (propertyPrice: number): number => {
-    return propertyPrice * 0.0793; // 7.93% - typical rate for existing properties
+    return propertyPrice * CALCULATOR_CONSTANTS.NOTARY_FEE_RATE_DETAILED;
   };
 
   if (_calculationMode === 'property') {
@@ -243,11 +244,11 @@ export const calculateMaxDownPayment = (inputs: {
     };
 
     const calculateNotaryFees = (propertyPrice: number): number => {
-      return propertyPrice * 0.0793; // 7.93% - typical rate for existing properties
+      return propertyPrice * CALCULATOR_CONSTANTS.NOTARY_FEE_RATE_DETAILED;
     };
 
-    // Use debt rate from advanced mode inputs, fallback to 33% if not provided
-    const debtRate = inputs.debtRate || 33;
+    // Use debt rate from advanced mode inputs, fallback to default if not provided
+    const debtRate = inputs.debtRate || CALCULATOR_CONSTANTS.DEFAULT_DEBT_RATE;
     const debtRateDecimal = debtRate / 100;
     const monthlyPayment = _calculationMode === 'monthly' ? inputs.monthlyPayment : (inputs.requiredSalary * debtRateDecimal);
     const calculatedPropertyPrice = calculatePropertyPrice(monthlyPayment, inputs.interestRate, inputs.loanDuration);
@@ -258,7 +259,7 @@ export const calculateMaxDownPayment = (inputs: {
   }
 
   // Default fallback
-  return 999999999;
+  return CALCULATOR_CONSTANTS.MAX_CURRENCY_VALUE;
 };
 
 

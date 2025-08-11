@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Input from '../UI/Input/Input';
 import Button from '../UI/Button/Button';
 import { calculateMaxDownPayment } from '../../utils/validation';
+import { CALCULATOR_CONSTANTS } from '../../constants/calculator';
 import type { CalculationMode } from '../../helpers/Calculator';
 import type { ValidationError } from '../../types';
 
@@ -28,7 +29,7 @@ interface CalculatorInputsProps {
   rentalIncomePercentage: number;
 }
 
-const CalculatorInputs: React.FC<CalculatorInputsProps> = ({
+const CalculatorInputs: React.FC<CalculatorInputsProps> = memo(({
   activeTab,
   propertyPrice,
   setPropertyPrice,
@@ -174,17 +175,17 @@ const CalculatorInputs: React.FC<CalculatorInputsProps> = ({
                 label=""
                 value={(() => {
                   let displayValue = isAnnualSalary ? requiredSalary * 12 : requiredSalary;
-                  // Convert net to brut if needed (net * 1.3 ≈ brut)
+                  // Convert net to brut if needed
                   if (!isNetSalary) {
-                    displayValue = displayValue * 1.3;
+                    displayValue = displayValue * CALCULATOR_CONSTANTS.GROSS_TO_NET_MULTIPLIER;
                   }
                   return displayValue;
                 })()}
                 onChange={(value) => {
                   let numValue = parseInt(value.replace(/\s/g, '')) || 0;
-                  // Convert brut to net if needed (brut / 1.3 ≈ net)
+                  // Convert brut to net if needed
                   if (!isNetSalary) {
-                    numValue = numValue / 1.3;
+                    numValue = numValue / CALCULATOR_CONSTANTS.GROSS_TO_NET_MULTIPLIER;
                   }
                   setRequiredSalary(isAnnualSalary ? numValue / 12 : numValue);
                 }}
@@ -218,6 +219,8 @@ const CalculatorInputs: React.FC<CalculatorInputsProps> = ({
       {renderTabInputs()}
     </div>
   );
-};
+});
+
+CalculatorInputs.displayName = 'CalculatorInputs';
 
 export default CalculatorInputs;

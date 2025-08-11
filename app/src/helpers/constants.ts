@@ -1,24 +1,9 @@
-export const CALCULATOR_DEFAULTS = {
-  propertyPrice: 250000,
-  monthlyPayment: 1189,
-  requiredSalary: 3400,
-  downPayment: 50000,
-  loanDuration: 25,
-  interestRate: 3.8,
-  // Advanced mode defaults
-  debtRate: 33,
-  existingLoans: 0,
-  rentalIncome: 0,
-  // Salary mode defaults
-  isAnnualSalary: false,
-};
+// Re-export from centralized constants
+export { 
+  CALCULATOR_DEFAULTS,
+  CALCULATOR_TABS,
+  CALCULATOR_CONSTANTS
+} from '../constants/calculator';
 
-// Loan duration is now handled by slider (3-30 years)
-
-export const CALCULATOR_TABS = [
-  { id: 'property', label: 'Prix du bien' },
-  { id: 'monthly', label: 'Mensualité' },
-  { id: 'salary', label: 'Salaire' },
-];
-
-export const ANIMATION_DURATION = 500; // milliseconds
+// Legacy export for animation duration
+export const ANIMATION_DURATION = 500; // milliseconds - TODO: Remove after refactoring animation hook

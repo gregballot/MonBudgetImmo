@@ -1,3 +1,5 @@
+import { CALCULATOR_CONSTANTS, CALCULATOR_DEFAULTS } from '../constants/calculator';
+
 export interface CalculationInputs {
   propertyPrice: number;
   monthlyPayment: number;
@@ -31,16 +33,7 @@ export class MortgageCalculator {
 
   constructor(inputs: Partial<CalculationInputs> = {}) {
     this.inputs = {
-      propertyPrice: 250000,
-      monthlyPayment: 1189,
-      requiredSalary: 3400,
-      downPayment: 50000,
-      loanDuration: 25,
-      interestRate: 3.8,
-      debtRate: 33,
-      existingLoans: 0,
-      rentalIncome: 0,
-      rentalIncomePercentage: 70,
+      ...CALCULATOR_DEFAULTS,
       ...inputs
     };
   }
@@ -103,8 +96,7 @@ export class MortgageCalculator {
   private calculateGrossSalary(netSalary: number): number {
     // Convert net salary to gross salary (approximate conversion)
     // This is a simplified calculation - in reality, it depends on many factors
-    // Using a rough estimate: gross = net / 0.75 (assuming ~25% taxes and charges)
-    return netSalary / 0.75;
+    return netSalary / CALCULATOR_CONSTANTS.NET_TO_GROSS_RATIO;
   }
 
   private calculateTotalOperationCost(totalPurchaseCost: number, totalCost: number): number {
@@ -127,17 +119,13 @@ export class MortgageCalculator {
   public calculateNotaryFees(propertyPrice: number): number {
     // French notary fees for existing properties (vente d'immeuble existant)
     // Based on actual French regulations and typical online simulators
-
-    // For existing properties, notary fees are approximately 7-8% of property price
     // This includes: émoluments de notaire, droits d'enregistrement, taxes diverses
-    // Using 7.5% as specified in the business requirements
-
-    return propertyPrice * 0.075; // 7.5% - as per business requirements
+    return propertyPrice * CALCULATOR_CONSTANTS.NOTARY_FEE_RATE;
   }
 
   // Helper method to get detailed breakdown of notary fees
   getNotaryFeesBreakdown(propertyPrice: number) {
-    const totalFees = propertyPrice * 0.0793;
+    const totalFees = propertyPrice * CALCULATOR_CONSTANTS.NOTARY_FEE_RATE_DETAILED;
 
     // Approximate breakdown (simplified)
     const notaryEmoluments = totalFees * 0.15; // ~15% of total fees
@@ -262,8 +250,8 @@ export class MortgageCalculator {
     // Step 3: Calculate property price = loan amount + down payment
     const propertyPrice = loanAmount + this.downPayment;
 
-    // Step 4: Calculate notary fees = property price × 7.5%
-    const notaryFees = propertyPrice * 0.075;
+    // Step 4: Calculate notary fees
+    const notaryFees = this.calculateNotaryFees(propertyPrice);
 
     // Step 5: Calculate total cost = (monthly payment × number of months) - loan amount
     const totalCost = (monthlyPayment * this.loanDuration * 12) - loanAmount;

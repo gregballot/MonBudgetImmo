@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import Button from '../UI/Button/Button';
 import Slider from '../UI/Slider/Slider';
 import Input from '../UI/Input/Input';
@@ -23,7 +23,7 @@ interface CalculatorControlsProps {
   validationErrors: ValidationError[];
 }
 
-const CalculatorControls: React.FC<CalculatorControlsProps> = ({
+const CalculatorControls: React.FC<CalculatorControlsProps> = memo(({
   isAdvancedMode,
   setIsAdvancedMode,
   debtRate,
@@ -115,6 +115,8 @@ const CalculatorControls: React.FC<CalculatorControlsProps> = ({
         </div>
       </div>
   );
-};
+});
+
+CalculatorControls.displayName = 'CalculatorControls';
 
 export default CalculatorControls;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo, useMemo } from 'react';
 import { formatCurrency, formatCurrencyPerMonth } from '../../helpers/formatters';
 import type { CalculationMode, CalculationResult } from '../../helpers/Calculator';
 
@@ -18,7 +18,7 @@ interface CalculatorResultsProps {
   setRequiredSalary: (value: number) => void;
 }
 
-const CalculatorResults: React.FC<CalculatorResultsProps> = ({
+const CalculatorResults: React.FC<CalculatorResultsProps> = memo(({
   animatedValues,
   activeTab,
   setActiveTab,
@@ -27,7 +27,8 @@ const CalculatorResults: React.FC<CalculatorResultsProps> = ({
   setMonthlyPayment,
   setRequiredSalary,
 }) => {
-  const resultItems = [
+  // Memoize expensive calculations
+  const resultItems = useMemo(() => [
     {
       label: 'Mensualité estimée',
       value: animatedValues.monthlyPayment.current,
@@ -115,7 +116,7 @@ const CalculatorResults: React.FC<CalculatorResultsProps> = ({
       clickable: false,
       targetMode: null,
     },
-  ];
+  ], [animatedValues, isAnnualSalary]);
 
   const handleResultClick = (item: typeof resultItems[0]) => {
     if (item.clickable && item.targetMode && item.targetMode !== activeTab) {
@@ -167,6 +168,8 @@ const CalculatorResults: React.FC<CalculatorResultsProps> = ({
       </div>
     </div>
   );
-};
+});
+
+CalculatorResults.displayName = 'CalculatorResults';
 
 export default CalculatorResults;
