@@ -1,0 +1,7 @@
+# pnpm configuration for CI/CD environments
+# Enable pre/post scripts for proper package installation
+enable-pre-post-scripts=true
+
+# Allow scripts from all dependencies (required for some build tools)
+# This prevents "ignored build scripts" warnings in Vercel
+unsafe-perm=true
