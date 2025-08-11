@@ -12,97 +12,93 @@ const BlogPost: React.FC = () => {
     return <Navigate to="/blog" replace />;
   }
 
-  // Convert markdown-style content to HTML (simple implementation)
+  // Convert markdown-style content to HTML (improved implementation)
   const formatContent = (content: string) => {
-    return content
-      .split('\n')
-      .map((line, index) => {
-        // Headers
-        if (line.startsWith('# ')) {
-          return <h1 key={index} className="content-h1">{line.substring(2)}</h1>;
+    const lines = content.split('\n');
+    const elements: React.ReactElement[] = [];
+    let i = 0;
+
+    while (i < lines.length) {
+      const line = lines[i];
+
+      // Headers
+      if (line.startsWith('# ')) {
+        elements.push(<h1 key={i} className="content-h1">{line.substring(2)}</h1>);
+        i++;
+      } else if (line.startsWith('## ')) {
+        elements.push(<h2 key={i} className="content-h2">{line.substring(3)}</h2>);
+        i++;
+      } else if (line.startsWith('### ')) {
+        elements.push(<h3 key={i} className="content-h3">{line.substring(4)}</h3>);
+        i++;
+      } 
+      // Lists
+      else if (line.startsWith('- ')) {
+        const listItems = [];
+        while (i < lines.length && lines[i].startsWith('- ')) {
+          listItems.push(lines[i].substring(2));
+          i++;
         }
-        if (line.startsWith('## ')) {
-          return <h2 key={index} className="content-h2">{line.substring(3)}</h2>;
-        }
-        if (line.startsWith('### ')) {
-          return <h3 key={index} className="content-h3">{line.substring(4)}</h3>;
-        }
-        
-        // Lists
-        if (line.startsWith('- ')) {
-          const nextLines = content.split('\n').slice(index);
-          const listItems = [];
-          let i = 0;
-          while (i < nextLines.length && (nextLines[i].startsWith('- ') || nextLines[i] === '')) {
-            if (nextLines[i].startsWith('- ')) {
-              listItems.push(nextLines[i].substring(2));
-            }
-            i++;
+        elements.push(
+          <ul key={i} className="content-list">
+            {listItems.map((item, idx) => (
+              <li key={idx} dangerouslySetInnerHTML={{ __html: formatInlineElements(item) }} />
+            ))}
+          </ul>
+        );
+      }
+      // Tables
+      else if (line.includes('|') && line.split('|').length > 2 && !line.includes('---')) {
+        const tableRows = [];
+        while (i < lines.length && lines[i].includes('|') && lines[i].split('|').length > 2) {
+          if (!lines[i].includes('---')) {
+            tableRows.push(lines[i].split('|').filter(cell => cell.trim()));
           }
-          if (listItems.length > 0 && line === nextLines[0]) {
-            return (
-              <ul key={index} className="content-list">
-                {listItems.map((item, i) => (
-                  <li key={i} dangerouslySetInnerHTML={{ __html: formatInlineElements(item) }} />
-                ))}
-              </ul>
-            );
-          }
-          return null; // Already processed in ul above
+          i++;
         }
-        
-        // Tables (simple detection)
-        if (line.includes('|') && line.split('|').length > 2) {
-          const nextLines = content.split('\n').slice(index);
-          const tableRows = [];
-          let i = 0;
-          while (i < nextLines.length && nextLines[i].includes('|') && nextLines[i].split('|').length > 2) {
-            if (!nextLines[i].includes('---')) { // Skip separator line
-              tableRows.push(nextLines[i].split('|').filter(cell => cell.trim()));
-            }
-            i++;
-          }
-          if (tableRows.length > 0 && line === nextLines[0]) {
-            return (
-              <table key={index} className="content-table">
-                <thead>
-                  <tr>
-                    {tableRows[0].map((header, i) => (
-                      <th key={i}>{header.trim()}</th>
+        if (tableRows.length > 0) {
+          elements.push(
+            <table key={i} className="content-table">
+              <thead>
+                <tr>
+                  {tableRows[0].map((header, idx) => (
+                    <th key={idx}>{header.trim()}</th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                {tableRows.slice(1).map((row, rowIdx) => (
+                  <tr key={rowIdx}>
+                    {row.map((cell, cellIdx) => (
+                      <td key={cellIdx} dangerouslySetInnerHTML={{ __html: formatInlineElements(cell.trim()) }} />
                     ))}
                   </tr>
-                </thead>
-                <tbody>
-                  {tableRows.slice(1).map((row, rowIndex) => (
-                    <tr key={rowIndex}>
-                      {row.map((cell, cellIndex) => (
-                        <td key={cellIndex} dangerouslySetInnerHTML={{ __html: formatInlineElements(cell.trim()) }} />
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            );
-          }
-          return null;
-        }
-        
-        // Regular paragraphs
-        if (line.trim() && !line.startsWith('#') && !line.includes('|')) {
-          return (
-            <p key={index} className="content-paragraph" 
-               dangerouslySetInnerHTML={{ __html: formatInlineElements(line) }} />
+                ))}
+              </tbody>
+            </table>
           );
         }
-        
-        // Empty lines
-        if (!line.trim()) {
-          return <br key={index} />;
-        }
-        
-        return null;
-      })
-      .filter(Boolean);
+      }
+      // Regular paragraphs
+      else if (line.trim() && !line.startsWith('#')) {
+        elements.push(
+          <p key={i} className="content-paragraph" 
+             dangerouslySetInnerHTML={{ __html: formatInlineElements(line) }} />
+        );
+        i++;
+      }
+      // Empty lines
+      else if (!line.trim()) {
+        elements.push(<br key={i} />);
+        i++;
+      }
+      // Skip unknown lines
+      else {
+        i++;
+      }
+    }
+
+    return elements;
   };
 
   const formatInlineElements = (text: string) => {
