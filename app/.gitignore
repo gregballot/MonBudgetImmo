@@ -25,3 +25,9 @@ dist-ssr
 
 # Test coverage
 coverage/
+
+# SEO and documentation files (auto-generated)
+../SEO_STRATEGY.md
+../IMMEDIATE_SEO_ACTIONS.md
+**/SEO_*.md
+**/seo_*.md

@@ -67,11 +67,16 @@ The application automatically deploys to Vercel on every push to the master bran
 
 ### Manual Deployment with Version Bump
 ```sh
-# Deploy with automatic patch version increment
+# Deploy with tests, linting, and automatic patch version increment
 pnpm run deploy
 
-# Or manually increment version
-pnpm run version:patch  # 1.0.0 -> 1.0.1
-pnpm run version:minor  # 1.0.1 -> 1.1.0  
+# Or manually increment version and push separately
+pnpm run version:patch  # 1.0.5 -> 1.0.6
+pnpm run version:minor  # 1.0.6 -> 1.1.0  
 pnpm run version:major  # 1.1.0 -> 2.0.0
+git add package.json && git commit -m "chore: bump version" && git push
 ```
+
+### Git Hooks
+- **Pre-commit hook**: Automatically runs tests and linting before each commit
+- **Clean deployment**: No more git conflicts or amended commits

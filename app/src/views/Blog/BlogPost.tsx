@@ -1,19 +1,28 @@
 import React from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import SEO from '../../components/SEO/SEO';
-import blogArticles from '../../data/blogArticles';
+import blogArticles, { type BlogArticle } from '../../data/blogArticles';
 import './Blog.scss';
 
 const BlogPost: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
-  const article = blogArticles.find(a => a.slug === slug);
+  
+  if (!slug) {
+    return <Navigate to="/blog" replace />;
+  }
+  
+  const article: BlogArticle | undefined = blogArticles.find(a => a.slug === slug);
 
   if (!article) {
     return <Navigate to="/blog" replace />;
   }
 
   // Convert markdown-style content to HTML (improved implementation)
-  const formatContent = (content: string) => {
+  const formatContent = (content: string): React.ReactElement[] => {
+    if (!content || typeof content !== 'string') {
+      return [];
+    }
+    
     const lines = content.split('\n');
     const elements: React.ReactElement[] = [];
     let i = 0;
@@ -21,9 +30,9 @@ const BlogPost: React.FC = () => {
     while (i < lines.length) {
       const line = lines[i];
 
-      // Headers
+      // Headers - Skip H1 since it's already displayed as the page title
       if (line.startsWith('# ')) {
-        elements.push(<h1 key={i} className="content-h1">{line.substring(2)}</h1>);
+        // Skip H1 headings as they're redundant with the page title
         i++;
       } else if (line.startsWith('## ')) {
         elements.push(<h2 key={i} className="content-h2">{line.substring(3)}</h2>);
@@ -87,9 +96,8 @@ const BlogPost: React.FC = () => {
         );
         i++;
       }
-      // Empty lines
+      // Empty lines - skip them to reduce unnecessary spacing
       else if (!line.trim()) {
-        elements.push(<br key={i} />);
         i++;
       }
       // Skip unknown lines
@@ -101,11 +109,15 @@ const BlogPost: React.FC = () => {
     return elements;
   };
 
-  const formatInlineElements = (text: string) => {
+  const formatInlineElements = (text: string): string => {
+    if (!text || typeof text !== 'string') {
+      return '';
+    }
+    
     return text
-      .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-      .replace(/\*(.*?)\*/g, '<em>$1</em>')
-      .replace(/`(.*?)`/g, '<code>$1</code>')
+      .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+      .replace(/\*([^*]+)\*/g, '<em>$1</em>')
+      .replace(/`([^`]+)`/g, '<code>$1</code>')
       .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="content-link">$1</a>');
   };
 
@@ -125,28 +137,47 @@ const BlogPost: React.FC = () => {
         ogType="article"
         structuredData={{
           "@context": "https://schema.org",
-          "@type": "Article",
+          "@type": ["Article", "BlogPosting"],
           "headline": article.title,
           "description": article.excerpt,
           "datePublished": article.publishDate,
           "dateModified": article.publishDate,
           "author": {
             "@type": "Person",
-            "name": "Grégoire Ballot"
+            "name": "Grégoire Ballot",
+            "url": "https://github.com/gregballot"
           },
           "publisher": {
             "@type": "Organization",
             "name": "Mon Simulateur Immo",
             "logo": {
               "@type": "ImageObject",
-              "url": "https://mon-simulateur-immo.fr/logo.png"
-            }
+              "url": "https://mon-simulateur-immo.fr/logo.png",
+              "width": "300",
+              "height": "300"
+            },
+            "url": "https://mon-simulateur-immo.fr"
           },
           "mainEntityOfPage": {
             "@type": "WebPage",
             "@id": `https://mon-simulateur-immo.fr/blog/${article.slug}`
           },
-          "keywords": article.tags.join(', ')
+          "url": `https://mon-simulateur-immo.fr/blog/${article.slug}`,
+          "wordCount": article.content.split(/\s+/).length,
+          "timeRequired": `PT${article.readTime}M`,
+          "inLanguage": "fr-FR",
+          "about": {
+            "@type": "Thing",
+            "name": "Immobilier français",
+            "description": "Investissement et financement immobilier en France"
+          },
+          "keywords": article.tags.join(', '),
+          "articleSection": "Finance & Immobilier",
+          "isPartOf": {
+            "@type": "Blog",
+            "name": "Blog Immobilier - Mon Simulateur Immo",
+            "url": "https://mon-simulateur-immo.fr/blog"
+          }
         }}
       />
       

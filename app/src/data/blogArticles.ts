@@ -1,14 +1,14 @@
 export interface BlogArticle {
-  id: string;
-  title: string;
-  slug: string;
-  excerpt: string;
-  content: string;
-  publishDate: string;
-  readTime: number;
-  tags: string[];
-  seoTitle?: string;
-  seoDescription?: string;
+  readonly id: string;
+  readonly title: string;
+  readonly slug: string;
+  readonly excerpt: string;
+  readonly content: string;
+  readonly publishDate: string;
+  readonly readTime: number;
+  readonly tags: readonly string[];
+  readonly seoTitle?: string;
+  readonly seoDescription?: string;
 }
 
 export const blogArticles: BlogArticle[] = [

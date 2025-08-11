@@ -55,6 +55,38 @@ $shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
 
 $header-height: 80px;
 
+// CSS Variables for theming
+:root {
+  --primary-color: #{$color-primary};
+  --accent-color: #{$color-secondary};
+  --text-color: #{$color-text-primary};
+  --text-secondary: #{$color-text-secondary};
+  --border-color: #{$color-border};
+  --card-background: #{$color-body-bg};
+  --tag-background: rgba(37, 99, 235, 0.1);
+  --tag-text: #2563eb;
+  --tag-border: rgba(37, 99, 235, 0.2);
+  --code-background: #f8fafc;
+  --code-color: #334155;
+  --hover-background: #f8fafc;
+}
+
+// Dark mode CSS variables
+.dark-mode {
+  --primary-color: #{$color-primary-dark};
+  --accent-color: #{$color-secondary-dark};
+  --text-color: #{$color-text-primary-dark};
+  --text-secondary: #{$color-text-secondary-dark};
+  --border-color: #{$color-border-dark-mode};
+  --card-background: #{$color-body-bg-dark};
+  --tag-background: rgba(96, 165, 250, 0.15);
+  --tag-text: #93c5fd;
+  --tag-border: rgba(96, 165, 250, 0.3);
+  --code-background: #1e293b;
+  --code-color: #e2e8f0;
+  --hover-background: #334155;
+}
+
 html, body, #root {
   height: 100%;
   margin: 0;

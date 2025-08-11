@@ -12,6 +12,47 @@ const BlogList: React.FC = () => {
         description="Découvrez nos guides complets sur l'immobilier : capacité d'emprunt, taux de crédit, frais de notaire, investissement locatif et aides au financement."
         keywords="blog immobilier, guide achat immobilier, conseils crédit immobilier, investissement locatif, PTZ, frais notaire"
         canonical="https://mon-simulateur-immo.fr/blog"
+        ogType="website"
+        structuredData={{
+          "@context": "https://schema.org",
+          "@type": ["Blog", "CollectionPage"],
+          "name": "Blog Immobilier - Mon Simulateur Immo",
+          "description": "Guides et conseils d'experts pour réussir votre projet immobilier : capacité d'emprunt, crédit immobilier, investissement locatif et stratégies d'achat.",
+          "url": "https://mon-simulateur-immo.fr/blog",
+          "mainEntity": {
+            "@type": "ItemList",
+            "name": "Articles de Blog Immobilier",
+            "itemListElement": blogArticles.map((article, index) => ({
+              "@type": "ListItem",
+              "position": index + 1,
+              "item": {
+                "@type": "BlogPosting",
+                "headline": article.title,
+                "description": article.excerpt,
+                "url": `https://mon-simulateur-immo.fr/blog/${article.slug}`,
+                "datePublished": article.publishDate,
+                "author": {
+                  "@type": "Person",
+                  "name": "Grégoire Ballot"
+                },
+                "publisher": {
+                  "@type": "Organization",
+                  "name": "Mon Simulateur Immo"
+                },
+                "keywords": article.tags.join(", ")
+              }
+            }))
+          },
+          "publisher": {
+            "@type": "Organization",
+            "name": "Mon Simulateur Immo",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://mon-simulateur-immo.fr/logo.png"
+            }
+          },
+          "inLanguage": "fr-FR"
+        }}
       />
       
       <div className="blog-list">
